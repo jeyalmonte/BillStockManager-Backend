@@ -1,8 +1,8 @@
-﻿using Domain.Common;
+﻿using SharedKernel.Interfaces;
 
 namespace Infrastructure.Common.Persistence;
 public class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
 {
-	public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+	public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
 		=> await dbContext.SaveChangesAsync(cancellationToken);
 }
