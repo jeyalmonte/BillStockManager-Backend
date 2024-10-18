@@ -38,3 +38,9 @@ public readonly record struct Result<TValue> : IResult<TValue>
 	public static implicit operator Result<TValue>(Error[] errors)
 		=> new(errors: [.. errors], hasError: true);
 }
+
+public static class Result
+{
+	public static Success Success => default;
+}
+public readonly record struct Success;
