@@ -55,7 +55,7 @@ public sealed class Customer : BaseAuditableEntity
 	{
 		if (invoice.CustomerId != Id)
 		{
-			Error.Conflict("Invoice does not belong to this customer.");
+			return Error.Conflict("Invoice does not belong to this customer.");
 		}
 		_invoices.Add(invoice);
 
