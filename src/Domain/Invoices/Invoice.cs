@@ -44,6 +44,21 @@ public sealed class Invoice : BaseAuditableEntity
 		return Result.Success;
 	}
 
+	//review
+	public Result<Success> AddInvoiceDetails(List<InvoiceDetail> invoiceDetails)
+	{
+		var resultList = invoiceDetails.Select(AddInvoiceDetail);
+
+		var hasError = resultList.All(r => r.HasError);
+
+		if (hasError)
+		{
+			return Error.Conflict(description: "One or more invoice details could not be added.");
+		}
+
+		return Result.Success;
+	}
+
 	public Result<Success> AddTransaction(Transaction transaction)
 	{
 		if (transaction.Amount <= 0)

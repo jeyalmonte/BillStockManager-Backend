@@ -69,5 +69,15 @@ public sealed class Product : BaseAuditableEntity
 		return Result.Success;
 	}
 
+	public decimal GetPriceAfterDiscount()
+	{
+		if (!Discount.HasValue || Discount.Value <= 0)
+		{
+			return Price;
+		}
+
+		return Price - Discount.Value;
+	}
+
 	private Product() { }
 }

@@ -8,25 +8,28 @@ public sealed class Customer : BaseAuditableEntity
 {
 	private readonly List<Invoice> _invoices = [];
 	public string FullName { get; private set; } = null!;
+	public string? Nickname { get; set; }
 	public GenderType Gender { get; private set; }
 	public string? Email { get; private set; }
 	public string? PhoneNumber { get; private set; }
 	public string? Address { get; private set; }
 	public IReadOnlyList<Invoice> Invoices => _invoices.AsReadOnly();
 
-	private Customer(string fullName, GenderType gender, string email, string? phoneNumber, string? address)
+	private Customer(string fullName, string? nickname, GenderType gender, string email, string? phoneNumber, string? address)
 	{
 		FullName = fullName;
+		Nickname = nickname;
 		Gender = gender;
 		Email = email;
 		PhoneNumber = phoneNumber;
 		Address = address;
 	}
 
-	public static Customer Create(string fullName, GenderType gender, string email, string? phoneNumber, string? address)
+	public static Customer Create(string fullName, string? nickname, GenderType gender, string email, string? phoneNumber, string? address)
 	{
 		var customer = new Customer(
 			fullName: fullName,
+			nickname: nickname,
 			gender: gender,
 			email: email,
 			phoneNumber: phoneNumber,
@@ -37,9 +40,10 @@ public sealed class Customer : BaseAuditableEntity
 		return customer;
 	}
 
-	public void Update(string fullName, string email, string? phoneNumber, string? address)
+	public void Update(string fullName, string? nickname, string email, string? phoneNumber, string? address)
 	{
 		FullName = fullName;
+		Nickname = nickname;
 		Email = email;
 		PhoneNumber = phoneNumber;
 		Address = address;

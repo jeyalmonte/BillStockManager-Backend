@@ -24,14 +24,14 @@ public sealed class InvoiceDetail : BaseAuditableEntity
 		SubTotal = CalculateSubTotal(quantity, unitPrice, discount);
 	}
 
-	public static Result<InvoiceDetail> Create(Guid invoiceId, Guid productId, int quantity, decimal unitPrice, decimal? discount)
+	public static Result<InvoiceDetail> Create(Guid invoiceId, Product product, int quantity, decimal? discount)
 	{
 		if (quantity <= 0)
 		{
 			Error.Conflict(description: "Quantity must be greater than zero.");
 		}
 
-		if (unitPrice <= 0)
+		if (product.Price <= 0)
 		{
 			Error.Conflict(description: "Unit price must be greater than zero.");
 		}
@@ -43,9 +43,9 @@ public sealed class InvoiceDetail : BaseAuditableEntity
 
 		var invoiceDetail = new InvoiceDetail(
 			invoiceId: invoiceId,
-			productId: productId,
+			productId: product.Id,
 			quantity: quantity,
-			unitPrice: unitPrice,
+			unitPrice: product.GetPriceAfterDiscount(),
 			discount: discount);
 
 		invoiceDetail.RaiseEvent(new InvoiceDetailCreatedEvent(invoiceDetail));
