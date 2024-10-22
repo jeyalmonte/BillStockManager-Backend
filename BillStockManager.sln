@@ -5,27 +5,26 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1A288FA8-8AE4-4783-B4D1-CD37EF16BD5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Domain\Domain.csproj", "{E882D07B-E1BA-4496-A741-07C1D467EA57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain.csproj", "{E882D07B-E1BA-4496-A741-07C1D467EA57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Application\Application.csproj", "{7380BFDD-75EA-4BE3-845E-82B292CAD40F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{7380BFDD-75EA-4BE3-845E-82B292CAD40F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{0F4FB36D-A6D6-4553-9FCD-ECB795B440F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{0F4FB36D-A6D6-4553-9FCD-ECB795B440F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "src\SharedKernel\SharedKernel.csproj", "{CB53BE89-684B-4342-BE81-6F881FFF27DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedKernel", "src\SharedKernel\SharedKernel.csproj", "{CB53BE89-684B-4342-BE81-6F881FFF27DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "src\Api\Api.csproj", "{9FF8FBC4-0E27-4AE1-9A69-7BCE55BAA999}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "src\Api\Api.csproj", "{9FF8FBC4-0E27-4AE1-9A69-7BCE55BAA999}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{96875A35-348D-48E4-90C0-A47871E97412}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTests", "tests\Application.UnitTests\Application.UnitTests.csproj", "{EB98639B-30B8-4262-85CB-935B7802813F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UnitTests", "tests\Application.UnitTests\Application.UnitTests.csproj", "{EB98639B-30B8-4262-85CB-935B7802813F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.UnitTests", "tests\Domain.UnitTests\Domain.UnitTests.csproj", "{926D2507-B1B5-41FF-B07D-5B2CF416649E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E882D07B-E1BA-4496-A741-07C1D467EA57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -52,6 +51,13 @@ Global
 		{EB98639B-30B8-4262-85CB-935B7802813F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB98639B-30B8-4262-85CB-935B7802813F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB98639B-30B8-4262-85CB-935B7802813F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{926D2507-B1B5-41FF-B07D-5B2CF416649E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{926D2507-B1B5-41FF-B07D-5B2CF416649E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{926D2507-B1B5-41FF-B07D-5B2CF416649E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{926D2507-B1B5-41FF-B07D-5B2CF416649E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E882D07B-E1BA-4496-A741-07C1D467EA57} = {1A288FA8-8AE4-4783-B4D1-CD37EF16BD5B}
@@ -60,5 +66,9 @@ Global
 		{CB53BE89-684B-4342-BE81-6F881FFF27DD} = {1A288FA8-8AE4-4783-B4D1-CD37EF16BD5B}
 		{9FF8FBC4-0E27-4AE1-9A69-7BCE55BAA999} = {1A288FA8-8AE4-4783-B4D1-CD37EF16BD5B}
 		{EB98639B-30B8-4262-85CB-935B7802813F} = {96875A35-348D-48E4-90C0-A47871E97412}
+		{926D2507-B1B5-41FF-B07D-5B2CF416649E} = {96875A35-348D-48E4-90C0-A47871E97412}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EACA37DD-76E5-44DA-9196-2CC138977BB3}
 	EndGlobalSection
 EndGlobal

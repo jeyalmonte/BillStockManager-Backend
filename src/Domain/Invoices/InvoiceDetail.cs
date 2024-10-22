@@ -28,17 +28,17 @@ public sealed class InvoiceDetail : BaseAuditableEntity
 	{
 		if (quantity <= 0)
 		{
-			Error.Conflict(description: "Quantity must be greater than zero.");
+			return Error.Conflict(description: "Quantity must be greater than zero.");
 		}
 
 		if (product.Price <= 0)
 		{
-			Error.Conflict(description: "Unit price must be greater than zero.");
+			return Error.Conflict(description: "Unit price must be greater than zero.");
 		}
 
 		if (discount.HasValue && discount.Value < 0)
 		{
-			Error.Conflict(description: "Discount cannot be negative.");
+			return Error.Conflict(description: "Discount cannot be negative.");
 		}
 
 		var invoiceDetail = new InvoiceDetail(
