@@ -31,10 +31,12 @@ public sealed class Category : BaseAuditableEntity
 	{
 		if (_products.Any(p => p.Name == product.Name))
 		{
-			Error.Conflict(description: $"Product {product.Name} already exists in the category.");
+			return Error.Conflict(description: $"Product {product.Name} already exists in the category.");
 		}
 
 		_products.Add(product);
+
+		RaiseEvent(new ProductAddedToCategoryEvent(Id, product));
 
 		return Result.Success;
 	}

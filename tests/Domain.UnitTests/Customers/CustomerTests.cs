@@ -6,7 +6,7 @@ namespace Domain.UnitTests.Customers;
 public class CustomerTests
 {
 	[Fact]
-	public void Create_ShouldReturnACustomerInstance()
+	public void Create_ShouldReturnCustomerInstance()
 	{
 		// Arrange
 		var customer = Customer.Create(
@@ -49,7 +49,7 @@ public class CustomerTests
 	}
 
 	[Fact]
-	public void AddInvoice_ShouldReturnAnError_WhenInvoiceDoesNotBelongToCustomer()
+	public void AddInvoice_ShouldReturnConflict_WhenInvoiceDoesNotBelongToCustomer()
 	{
 		// Arrange
 		var customer = Customer.Create(

@@ -1,5 +1,4 @@
-﻿using Domain.Invoices.Events;
-using Domain.Products;
+﻿using Domain.Products;
 using SharedKernel.Domain;
 using SharedKernel.Results;
 
@@ -24,7 +23,7 @@ public sealed class InvoiceDetail : BaseAuditableEntity
 		SubTotal = CalculateSubTotal(quantity, unitPrice, discount);
 	}
 
-	public static Result<InvoiceDetail> Create(Guid invoiceId, Product product, int quantity, decimal? discount)
+	public static Result<InvoiceDetail> Create(Guid invoiceId, Product product, int quantity, decimal? discount = 0)
 	{
 		if (quantity <= 0)
 		{
@@ -47,8 +46,6 @@ public sealed class InvoiceDetail : BaseAuditableEntity
 			quantity: quantity,
 			unitPrice: product.GetPriceAfterDiscount(),
 			discount: discount);
-
-		invoiceDetail.RaiseEvent(new InvoiceDetailCreatedEvent(invoiceDetail));
 
 		return invoiceDetail;
 	}

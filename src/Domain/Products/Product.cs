@@ -22,7 +22,7 @@ public sealed class Product : BaseAuditableEntity
 		Discount = discount;
 	}
 
-	public static Product Create(string name, Guid categoryId, string? description, decimal price, int stock, decimal? discount)
+	public static Product Create(string name, Guid categoryId, string? description, decimal price, int stock, decimal? discount = 0)
 	{
 		var product = new Product(
 			name: name,
@@ -32,7 +32,6 @@ public sealed class Product : BaseAuditableEntity
 			stock: stock,
 			discount: discount);
 
-		product.RaiseEvent(new ProductCreatedEvent(product));
 		return product;
 	}
 
@@ -40,12 +39,12 @@ public sealed class Product : BaseAuditableEntity
 	{
 		if (quantity <= 0)
 		{
-			return Error.Failure(description: "Quantity must be greater than zero.");
+			return Error.Conflict(description: "Quantity must be greater than zero.");
 		}
 
 		if (Stock < quantity)
 		{
-			return Error.Failure(description: "Quantity exceeds the available stock.");
+			return Error.Conflict(description: "Quantity exceeds the available stock.");
 		}
 
 		Stock -= quantity;
@@ -59,7 +58,7 @@ public sealed class Product : BaseAuditableEntity
 	{
 		if (quantity <= 0)
 		{
-			return Error.Failure(description: "Quantity must be greater than zero.");
+			return Error.Conflict(description: "Quantity must be greater than zero.");
 		}
 
 		Stock += quantity;

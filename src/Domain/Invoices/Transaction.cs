@@ -1,5 +1,6 @@
 ﻿using Domain.Invoices.Events;
 using SharedKernel.Domain;
+using SharedKernel.Results;
 
 namespace Domain.Invoices;
 public sealed class Transaction : BaseAuditableEntity
@@ -20,8 +21,18 @@ public sealed class Transaction : BaseAuditableEntity
 		Currency = currency;
 	}
 
-	public static Transaction Create(Guid invoiceId, decimal amount, PaymentMethodType paymentMethod, string? referenceNumber, Currency? currency)
+	public static Result<Transaction> Create(Guid invoiceId, decimal amount, PaymentMethodType paymentMethod, string? referenceNumber, Currency? currency)
 	{
+		if (amount <= 0)
+		{
+			return Error.Conflict(description: "Amount must be greater than zero.");
+		}
+
+		if (RequiresReference(paymentMethod) && string.IsNullOrEmpty(referenceNumber))
+		{
+			return Error.Conflict("Reference number is required for this payment method.");
+		}
+
 		var transaction = new Transaction(
 			invoiceId: invoiceId,
 			amount: amount,
@@ -33,6 +44,13 @@ public sealed class Transaction : BaseAuditableEntity
 
 		return transaction;
 	}
+
+	private static bool RequiresReference(PaymentMethodType paymentMethod) => paymentMethod switch
+	{
+		PaymentMethodType.Card => true,
+		PaymentMethodType.Transfer => true,
+		_ => false
+	};
 
 	private Transaction() { }
 }

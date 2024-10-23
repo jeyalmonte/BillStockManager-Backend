@@ -41,31 +41,13 @@ public sealed class Invoice : BaseAuditableEntity
 		_invoiceDetails.Add(invoiceDetail);
 		TotalAmount += invoiceDetail.SubTotal;
 
-		return Result.Success;
-	}
-
-	//review
-	public Result<Success> AddInvoiceDetails(List<InvoiceDetail> invoiceDetails)
-	{
-		var resultList = invoiceDetails.Select(AddInvoiceDetail);
-
-		var hasError = resultList.All(r => r.HasError);
-
-		if (hasError)
-		{
-			return Error.Conflict(description: "One or more invoice details could not be added.");
-		}
+		RaiseEvent(new InvoiceDetailAddedEvent(invoiceDetail));
 
 		return Result.Success;
 	}
 
-	public Result<Success> AddTransaction(Transaction transaction)
+	public Result<Success> ProcessTransaction(Transaction transaction)
 	{
-		if (transaction.Amount <= 0)
-		{
-			return Error.Conflict(description: "Amount must be greater than zero.");
-		}
-
 		decimal outstandingBalance = CalculateOutstandingBalance();
 
 		if (transaction.Amount > outstandingBalance)
@@ -79,10 +61,11 @@ public sealed class Invoice : BaseAuditableEntity
 
 		if (outstandingBalance == 0)
 		{
-			MarkAsPaid();
+			RaiseEvent(new InvoicePaidEvent(Id));
 		}
 
 		_transactions.Add(transaction);
+
 		return Result.Success;
 	}
 
@@ -99,8 +82,6 @@ public sealed class Invoice : BaseAuditableEntity
 		}
 
 		Status = InvoiceStatus.Paid;
-
-		RaiseEvent(new InvoicePaidEvent(Id));
 
 		return Result.Success;
 	}
