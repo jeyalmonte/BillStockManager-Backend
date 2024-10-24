@@ -35,6 +35,32 @@ public sealed class Product : BaseAuditableEntity
 		return product;
 	}
 
+	public Result<Success> Update(string name, string? description, Guid categoryId, decimal price, int newStock, decimal? discount = 0)
+	{
+		var stockResult = HandleStockChange(newStock);
+
+		if (stockResult.HasError)
+		{
+			return stockResult;
+		}
+
+		Name = name;
+		CategoryId = categoryId;
+		Description = description;
+		Price = price;
+		Discount = discount;
+
+		RaiseEvent(new ProductUpdatedEvent(this));
+
+		return Result.Success;
+	}
+
+	public void Remove()
+	{
+		MarkAsDeleted();
+		RaiseEvent(new ProductRemovedEvent(this));
+	}
+
 	public Result<Success> ReduceStock(int quantity)
 	{
 		if (quantity <= 0)
@@ -49,7 +75,7 @@ public sealed class Product : BaseAuditableEntity
 
 		Stock -= quantity;
 
-		RaiseEvent(new ProductStockReducedEvent(this, quantity));
+		RaiseEvent(new ProductStockReducedEvent(Id, quantity));
 
 		return Result.Success;
 	}
@@ -63,7 +89,7 @@ public sealed class Product : BaseAuditableEntity
 
 		Stock += quantity;
 
-		RaiseEvent(new ProductStockIncreasedEvent(this, quantity));
+		RaiseEvent(new ProductStockIncreasedEvent(Id, quantity));
 
 		return Result.Success;
 	}
@@ -78,5 +104,18 @@ public sealed class Product : BaseAuditableEntity
 		return Price - Discount.Value;
 	}
 
+	private Result<Success> HandleStockChange(int newStock)
+	{
+		if (Stock > newStock)
+		{
+			return ReduceStock(Stock - newStock);
+		}
+		else if (Stock < newStock)
+		{
+			return IncreaseStock(newStock - Stock);
+		}
+
+		return Result.Success;
+	}
 	private Product() { }
 }

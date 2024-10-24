@@ -1,4 +1,4 @@
 ﻿using SharedKernel.Domain;
 
 namespace Domain.Products.Events;
-public record ProductStockReducedEvent(Product Product, int Quantity) : IDomainEvent;
+public record ProductStockReducedEvent(Guid ProductId, int Quantity) : IDomainEvent;
