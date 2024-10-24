@@ -1,5 +1,5 @@
 ﻿namespace Domain.Invoices;
-public enum PaymentMethodType
+public enum PaymentMethod
 {
 	Cash,
 	Card,

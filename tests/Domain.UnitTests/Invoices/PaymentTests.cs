@@ -3,7 +3,7 @@ using FluentAssertions;
 using SharedKernel.Results;
 
 namespace Domain.UnitTests.Invoices;
-public class TransactionTests
+public class PaymentTests
 {
 	[Fact]
 	public void Create_ShouldReturnConflict_WhenAmountIsLessThanOrEqualToZero()
@@ -12,10 +12,10 @@ public class TransactionTests
 		var invoiceId = Guid.NewGuid();
 
 		// Act
-		var result = Transaction.Create(
+		var result = Payment.Create(
 			invoiceId: invoiceId,
 			amount: 0,
-			paymentMethod: PaymentMethodType.Card,
+			paymentMethod: PaymentMethod.Card,
 			referenceNumber: "123456",
 			currency: Currency.DOP
 		);
@@ -32,10 +32,10 @@ public class TransactionTests
 		var invoiceId = Guid.NewGuid();
 
 		// Act
-		var result = Transaction.Create(
+		var result = Payment.Create(
 			invoiceId: invoiceId,
 			amount: 100,
-			paymentMethod: PaymentMethodType.Card,
+			paymentMethod: PaymentMethod.Card,
 			referenceNumber: null,
 			currency: Currency.DOP
 		);
@@ -46,16 +46,16 @@ public class TransactionTests
 	}
 
 	[Fact]
-	public void Create_ShouldReturnTransactionInstance()
+	public void Create_ShouldReturnPaymentInstance()
 	{
 		// Arrange
 		var invoiceId = Guid.NewGuid();
 
 		// Act
-		var result = Transaction.Create(
+		var result = Payment.Create(
 			invoiceId: invoiceId,
 			amount: 100,
-			paymentMethod: PaymentMethodType.Card,
+			paymentMethod: PaymentMethod.Card,
 			referenceNumber: "123456",
 			currency: Currency.DOP
 		);
@@ -63,6 +63,6 @@ public class TransactionTests
 		// Assert
 		result.HasError.Should().BeFalse();
 		result.Value.Should().NotBeNull();
-		result.Value.Should().BeOfType<Transaction>();
+		result.Value.Should().BeOfType<Payment>();
 	}
 }

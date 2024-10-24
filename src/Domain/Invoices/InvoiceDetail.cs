@@ -11,8 +11,8 @@ public sealed class InvoiceDetail : BaseAuditableEntity
 	public Product Product { get; private set; } = null!;
 	public int Quantity { get; private set; }
 	public decimal UnitPrice { get; private set; }
-	public decimal SubTotal { get; private set; }
 	public decimal? Discount { get; private set; }
+	public decimal SubTotal => CalculateSubTotal();
 	public InvoiceDetail(Guid invoiceId, Guid productId, int quantity, decimal unitPrice, decimal? discount)
 	{
 		InvoiceId = invoiceId;
@@ -20,7 +20,6 @@ public sealed class InvoiceDetail : BaseAuditableEntity
 		Quantity = quantity;
 		UnitPrice = unitPrice;
 		Discount = discount;
-		SubTotal = CalculateSubTotal(quantity, unitPrice, discount);
 	}
 
 	public static Result<InvoiceDetail> Create(Guid invoiceId, Product product, int quantity, decimal? discount = 0)
@@ -50,10 +49,10 @@ public sealed class InvoiceDetail : BaseAuditableEntity
 		return invoiceDetail;
 	}
 
-	private static decimal CalculateSubTotal(int quantity, decimal unitPrice, decimal? discount)
+	private decimal CalculateSubTotal()
 	{
-		var subtotal = quantity * unitPrice;
-		return discount.HasValue ? subtotal - discount.Value : subtotal;
+		var subtotal = Quantity * UnitPrice;
+		return Discount.HasValue ? subtotal - Discount.Value : subtotal;
 	}
 	private InvoiceDetail() { }
 }

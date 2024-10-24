@@ -75,20 +75,20 @@ public class InvoiceTests
 	}
 
 	[Fact]
-	public void ProcessTransaction_ShouldReturnConflict_WhenAmountExceedsOutstandingBalance()
+	public void ProcessPayment_ShouldReturnConflict_WhenAmountExceedsOutstandingBalance()
 	{
 		// Arrange
 		var invoice = Invoice.Create(customerId: Guid.NewGuid());
-		var transaction = Transaction.Create(
+		var payment = Payment.Create(
 			invoiceId: invoice.Id,
 			amount: 100,
-			paymentMethod: PaymentMethodType.Cash,
+			paymentMethod: PaymentMethod.Cash,
 			referenceNumber: null,
 			currency: Currency.DOP
 		);
 
 		// Act
-		var result = invoice.ProcessTransaction(transaction.Value);
+		var result = invoice.ProcessPayment(payment.Value);
 
 		// Assert
 		result.HasError.Should().BeTrue();
@@ -96,7 +96,7 @@ public class InvoiceTests
 	}
 
 	[Fact]
-	public void ProcessTransaction_ShouldReturnConflict_WhenAmountExceedsTotalAmount()
+	public void ProcessPayment_ShouldReturnConflict_WhenAmountExceedsTotalAmount()
 	{
 		// Arrange
 		var invoice = Invoice.Create(customerId: Guid.NewGuid());
@@ -116,16 +116,16 @@ public class InvoiceTests
 
 		invoice.AddInvoiceDetail(invoiceDetail.Value);
 
-		var transaction = Transaction.Create(
+		var payment = Payment.Create(
 			invoiceId: invoice.Id,
 			amount: 200,
-			paymentMethod: PaymentMethodType.Cash,
+			paymentMethod: PaymentMethod.Cash,
 			referenceNumber: null,
 			currency: Currency.DOP
 		);
 
 		// Act
-		var result = invoice.ProcessTransaction(transaction.Value);
+		var result = invoice.ProcessPayment(payment.Value);
 
 		// Assert
 		result.HasError.Should().BeTrue();
@@ -133,7 +133,7 @@ public class InvoiceTests
 	}
 
 	[Fact]
-	public void ProcessTransaction_ShouldReturnSuccess()
+	public void ProcessPayment_ShouldReturnSuccess()
 	{
 		// Arrange
 		var invoice = Invoice.Create(customerId: Guid.NewGuid());
@@ -153,20 +153,20 @@ public class InvoiceTests
 
 		invoice.AddInvoiceDetail(invoiceDetail.Value);
 
-		var transaction = Transaction.Create(
+		var payment = Payment.Create(
 			invoiceId: invoice.Id,
 			amount: 100,
-			paymentMethod: PaymentMethodType.Cash,
+			paymentMethod: PaymentMethod.Cash,
 			referenceNumber: null,
 			currency: Currency.DOP
 		);
 
 		// Act
-		var result = invoice.ProcessTransaction(transaction.Value);
+		var result = invoice.ProcessPayment(payment.Value);
 
 		// Assert
 		result.HasError.Should().BeFalse();
-		invoice.Transactions.Should().Contain(transaction.Value);
+		invoice.Payments.Should().Contain(payment.Value);
 	}
 
 	[Fact]
@@ -190,15 +190,15 @@ public class InvoiceTests
 
 		invoice.AddInvoiceDetail(invoiceDetail.Value);
 
-		var transaction = Transaction.Create(
+		var transaction = Payment.Create(
 			invoiceId: invoice.Id,
 			amount: 100,
-			paymentMethod: PaymentMethodType.Cash,
+			paymentMethod: PaymentMethod.Cash,
 			referenceNumber: null,
 			currency: Currency.DOP
 		);
 
-		invoice.ProcessTransaction(transaction.Value);
+		invoice.ProcessPayment(transaction.Value);
 		invoice.MarkAsPaid();
 
 		// Act
@@ -230,15 +230,15 @@ public class InvoiceTests
 
 		invoice.AddInvoiceDetail(invoiceDetail.Value);
 
-		var transaction = Transaction.Create(
+		var transaction = Payment.Create(
 			invoiceId: invoice.Id,
 			amount: 100,
-			paymentMethod: PaymentMethodType.Cash,
+			paymentMethod: PaymentMethod.Cash,
 			referenceNumber: null,
 			currency: Currency.DOP
 		);
 
-		invoice.ProcessTransaction(transaction.Value);
+		invoice.ProcessPayment(transaction.Value);
 
 		// Act
 		var result = invoice.MarkAsPaid();
