@@ -1,7 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Infrastructure.Common.Persistence;
 using Infrastructure.Common.Persistence.Interceptors;
-using Infrastructure.Outbox;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,26 +15,25 @@ public static class DependencyInjection
 	public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 	{
 		services
-			.AddPersistence()
+			.AddPersistence(configuration)
 			.AddServices();
 
 		return services;
 	}
 
-	public static IServiceCollection AddPersistence(this IServiceCollection services)
+	public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
 	{
 		services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-		services.AddScoped<InsertOutboxMessageInterceptor>();
-		services.AddScoped<PublishDomainEventsInterceptor>();
+		services.AddSingleton<UpdateAuditableInterceptor>();
+		services.AddSingleton<PublishDomainEventsInterceptor>();
 
-		services.AddDbContext<IAppDbContext, AppDbContext>((serviceProvider, options) =>
-		{
-			var outboxInterceptor = serviceProvider.GetRequiredService<InsertOutboxMessageInterceptor>();
-			var eventInterceptor = serviceProvider.GetRequiredService<PublishDomainEventsInterceptor>();
-
-			options.UseInMemoryDatabase("PeopleDb").AddInterceptors(outboxInterceptor, eventInterceptor);
-		});
+		services.AddDbContext<IAppDbContext, AppDbContext>(
+			(sp, options) => options
+				.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+				.AddInterceptors(
+					sp.GetRequiredService<UpdateAuditableInterceptor>(),
+					sp.GetRequiredService<PublishDomainEventsInterceptor>()));
 
 		return services;
 	}
