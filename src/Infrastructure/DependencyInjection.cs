@@ -2,10 +2,10 @@
 using Application.Identity.Interfaces;
 using Infrastructure.Common.Persistence;
 using Infrastructure.Common.Persistence.Interceptors;
+using Infrastructure.Common.Services;
 using Infrastructure.Identity;
 using Infrastructure.Identity.Configuration;
 using Infrastructure.Identity.Services;
-using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
