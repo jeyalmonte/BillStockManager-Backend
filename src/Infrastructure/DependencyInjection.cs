@@ -2,7 +2,10 @@
 using Infrastructure.Common.Persistence;
 using Infrastructure.Common.Persistence.Interceptors;
 using Infrastructure.Identity;
+using Infrastructure.Identity.Configuration;
+using Infrastructure.Identity.Services;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -52,6 +55,7 @@ public static class DependencyInjection
 	private static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
 	{
 		services
+		   .AddTransient<IJwtGenerator, JwtGeneratorService>()
 		   .AddIdentity<User, IdentityRole>(options =>
 		   {
 			   options.Password.RequiredLength = 8;
@@ -61,6 +65,13 @@ public static class DependencyInjection
 			   options.Password.RequireUppercase = false;
 		   })
 		   .AddEntityFrameworkStores<AppDbContext>();
+
+		services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.Section));
+
+		services
+			.ConfigureOptions<JwtBearerTokenValidationConfiguration>()
+			.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
+			.AddJwtBearer();
 
 		return services;
 	}
