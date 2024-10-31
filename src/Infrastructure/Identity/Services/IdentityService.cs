@@ -1,8 +1,6 @@
 ﻿using Application.Identity.Interfaces;
 using Application.Identity.Models;
 using Microsoft.AspNetCore.Identity;
-using SharedKernel.Contracts.Users.Requests;
-using SharedKernel.Contracts.Users.Responses;
 using SharedKernel.Results;
 
 namespace Infrastructure.Identity.Services;
@@ -11,7 +9,7 @@ public class IdentityService(
 	IJwtGenerator _jwtGenerator
 	) : IIdentityService
 {
-	public async Task<Result<LoginResponse>> Login(LoginRequest request)
+	public async Task<Result<UserTokenResponse>> Login(UserRequest request)
 	{
 		var user = await _userManager.FindByNameAsync(request.Username);
 
@@ -28,10 +26,10 @@ public class IdentityService(
 		}
 		var (accessToken, refreshToken) = await _jwtGenerator.GenerateTokens(user);
 
-		return new LoginResponse(accessToken, refreshToken);
+		return new UserTokenResponse(accessToken, refreshToken);
 	}
 
-	public async Task<Result<Success>> Register(RegisterRequest request)
+	public async Task<Result<Success>> Register(UserRegisterRequest request)
 	{
 		var user = User.Create(request.Name, request.Username, request.Email);
 
