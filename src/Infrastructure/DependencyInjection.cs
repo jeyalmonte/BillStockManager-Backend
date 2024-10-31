@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Identity.Interfaces;
 using Infrastructure.Common.Persistence;
 using Infrastructure.Common.Persistence.Interceptors;
 using Infrastructure.Identity;
@@ -55,6 +56,7 @@ public static class DependencyInjection
 	private static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
 	{
 		services
+		   .AddTransient<IIdentityService, IdentityService>()
 		   .AddTransient<IJwtGenerator, JwtGeneratorService>()
 		   .AddIdentity<User, IdentityRole>(options =>
 		   {
