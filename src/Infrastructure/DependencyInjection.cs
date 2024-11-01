@@ -18,7 +18,7 @@ namespace Infrastructure;
 
 public static class DependencyInjection
 {
-	public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
 	{
 		services
 			.AddPersistence(configuration)
@@ -32,8 +32,9 @@ public static class DependencyInjection
 	{
 		services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-		services.AddSingleton<UpdateAuditableInterceptor>();
-		services.AddSingleton<PublishDomainEventsInterceptor>();
+		services
+			.AddSingleton<UpdateAuditableInterceptor>()
+			.AddSingleton<PublishDomainEventsInterceptor>();
 
 		services.AddDbContext<IAppDbContext, AppDbContext>(
 			(sp, options) => options
@@ -77,4 +78,6 @@ public static class DependencyInjection
 
 		return services;
 	}
+
+
 }

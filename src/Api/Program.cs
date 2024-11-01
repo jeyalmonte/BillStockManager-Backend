@@ -1,31 +1,21 @@
 using Api;
+using Api.Extensions;
 using Application;
 using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
-
 builder.Services
-	.AddPresentation()
-	.AddApplication()
-	.AddInfrastructure(builder.Configuration);
+	.AddApiServices()
+	.AddApplicationServices()
+	.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-	app.UseSwagger();
-	app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
 app.UseExceptionHandler();
-
-await app.RunAsync();
+app.UseHttpsRedirection();
+app.UseSwagger(builder.Environment);
+app.UseRouting();
+app.UseAuthentication();
+app.MapControllers();
+app.Run();

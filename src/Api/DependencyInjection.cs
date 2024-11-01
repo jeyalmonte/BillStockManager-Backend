@@ -6,30 +6,53 @@ namespace Api;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddPresentation(this IServiceCollection services)
-    {
-        services.AddControllers()
-            .ConfigureApiBehaviorOptions(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            })
-            .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+	public static IServiceCollection AddApiServices(this IServiceCollection services)
+	{
+		services
+			.AddRoutingAndControllers()
+			.AddSwagger()
+			.AddExceptionHandling()
+			.AddHttpContextAccessor();
 
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c =>
-        {
-            c.EnableAnnotations();
-            c.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Title = "ProjectName",
-                Description = "ProjectName API Description.",
-                Version = "v1"
-            });
-        });
+		return services;
+	}
 
-        services.AddExceptionHandler<GlobalExceptionHandler>();
-        services.AddProblemDetails();
+	private static IServiceCollection AddRoutingAndControllers(this IServiceCollection services)
+	{
+		services.AddRouting(options => options.LowercaseUrls = true)
+				.AddControllers()
+				.ConfigureApiBehaviorOptions(options =>
+				{
+					options.SuppressModelStateInvalidFilter = true;
+				})
+				.AddJsonOptions(options =>
+				{
+					options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+				});
 
-        return services;
-    }
+		services.AddEndpointsApiExplorer();
+		return services;
+	}
+
+	private static IServiceCollection AddSwagger(this IServiceCollection services)
+	{
+		services.AddSwaggerGen(c =>
+		{
+			c.EnableAnnotations();
+			c.SwaggerDoc("v1", new OpenApiInfo
+			{
+				Title = "BillStockManager API",
+				Description = "Bill Stock Manager",
+				Version = "v1"
+			});
+		});
+		return services;
+	}
+
+	private static IServiceCollection AddExceptionHandling(this IServiceCollection services)
+	{
+		services.AddExceptionHandler<GlobalExceptionHandler>();
+		services.AddProblemDetails();
+		return services;
+	}
 }
