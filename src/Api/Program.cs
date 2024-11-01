@@ -17,5 +17,6 @@ app.UseHttpsRedirection();
 app.UseSwagger(builder.Environment);
 app.UseRouting();
 app.UseAuthentication();
+app.MapHealthChecks();
 app.MapControllers();
 app.Run();

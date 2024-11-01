@@ -23,7 +23,8 @@ public static class DependencyInjection
 		services
 			.AddPersistence(configuration)
 			.AddServices()
-			.AddIdentity(configuration);
+			.AddIdentity(configuration)
+			.AddHealth(configuration);
 
 		return services;
 	}
@@ -79,5 +80,15 @@ public static class DependencyInjection
 		return services;
 	}
 
+	private static IServiceCollection AddHealth(
+		this IServiceCollection services,
+		IConfiguration configuration)
+	{
+		var healthChecks = services.AddHealthChecks();
 
+		healthChecks
+			.AddSqlServer(configuration.GetConnectionString("DefaultConnection")!);
+
+		return services;
+	}
 }
