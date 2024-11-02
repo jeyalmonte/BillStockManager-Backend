@@ -9,6 +9,7 @@ public class IdentityService(
 	IJwtGenerator _jwtGenerator
 	) : IIdentityService
 {
+	private const string UserRole = "User";
 	public async Task<Result<UserTokenResponse>> Login(UserRequest request)
 	{
 		var user = await _userManager.FindByNameAsync(request.Username);
@@ -37,14 +38,14 @@ public class IdentityService(
 
 		if (isEmailTaken is not null)
 		{
-			return Error.Failure(description: "Email is already taken.");
+			return Error.Conflict(description: "Email is already taken.");
 		}
 
 		var isUsernameTaken = await _userManager.FindByNameAsync(request.Username);
 
 		if (isUsernameTaken is not null)
 		{
-			return Error.Failure(description: "Username is already taken.");
+			return Error.Conflict(description: "Username is already taken.");
 		}
 
 		var result = await _userManager.CreateAsync(user, request.Password);
@@ -53,6 +54,13 @@ public class IdentityService(
 		{
 			var errorMessage = result.Errors.First()?.Description ?? "An error occurred registering the user.";
 			return Error.Failure(description: errorMessage);
+		}
+
+		var roleResult = await _userManager.AddToRoleAsync(user, UserRole);
+
+		if (!roleResult.Succeeded)
+		{
+			return Error.Failure(description: "User was created, but failed to assign role.");
 		}
 
 		return Result.Success;
