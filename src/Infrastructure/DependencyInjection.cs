@@ -42,7 +42,8 @@ public static class DependencyInjection
 				.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
 				.AddInterceptors(
 					sp.GetRequiredService<UpdateAuditableInterceptor>(),
-					sp.GetRequiredService<PublishDomainEventsInterceptor>()));
+					sp.GetRequiredService<PublishDomainEventsInterceptor>()))
+				.AddTransient<IAppDbInitializer, AppDbInitializer>();
 
 		return services;
 	}

@@ -19,4 +19,5 @@ app.UseRouting();
 app.UseAuthentication();
 app.MapHealthChecks();
 app.MapControllers();
+app.InitializeDb();
 app.Run();

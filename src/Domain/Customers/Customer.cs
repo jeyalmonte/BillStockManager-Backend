@@ -15,7 +15,7 @@ public sealed class Customer : BaseAuditableEntity
 	public string? Address { get; private set; }
 	public IReadOnlyList<Invoice> Invoices => _invoices.AsReadOnly();
 
-	private Customer(string fullName, string? nickname, GenderType gender, string email, string? phoneNumber, string? address)
+	public Customer(string fullName, string? nickname, GenderType gender, string email, string? phoneNumber, string? address)
 	{
 		FullName = fullName;
 		Nickname = nickname;
