@@ -64,6 +64,9 @@ internal class AppDbInitializer(
 	}
 	private async Task SeedAdministratorAsync()
 	{
+		if (await userManager.FindByNameAsync("admin") is not null)
+			return;
+
 		var adminUser = new User("Admin", "admin", "admin@admin.com");
 		await userManager.CreateAsync(adminUser, "admin1234");
 		await userManager.AddToRoleAsync(adminUser, AdministratorRoleName);
