@@ -1,5 +1,5 @@
-﻿using Application.Customers.Create;
-using Application.Customers.GetById;
+﻿using Application.Customers.Commands.Create;
+using Application.Customers.Queries.GetById;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Results;
 

@@ -4,7 +4,7 @@ using SharedKernel.Contracts.Customers;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Results;
 
-namespace Application.Customers.GetById;
+namespace Application.Customers.Queries.GetById;
 public class GetCustomerByIdQueryHandler(ICustomerRepository customerRepository)
     : IQueryHandler<GetCustomerByIdQuery, CustomerResponse>
 {

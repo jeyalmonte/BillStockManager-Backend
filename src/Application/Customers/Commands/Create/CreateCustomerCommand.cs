@@ -2,7 +2,7 @@
 using SharedKernel.Contracts.Customers;
 using SharedKernel.Interfaces.Messaging;
 
-namespace Application.Customers.Create;
+namespace Application.Customers.Commands.Create;
 public record CreateCustomerCommand(
     string FullName,
     string? Nickname,

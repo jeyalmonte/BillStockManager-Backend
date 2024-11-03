@@ -6,7 +6,7 @@ using SharedKernel.Interfaces;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Results;
 
-namespace Application.Customers.Create;
+namespace Application.Customers.Commands.Create;
 public class CreateCustomerCommandHandler(
     ICustomerRepository customerRepository,
     IUnitOfWork unitOfWork)
