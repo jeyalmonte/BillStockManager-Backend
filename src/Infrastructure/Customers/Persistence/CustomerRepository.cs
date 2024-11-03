@@ -11,4 +11,7 @@ public class CustomerRepository(AppDbContext dbContext) : AppDbContextAccess<Cus
        => asNoTracking
         ? await EntitiesAsNoTracking.SingleOrDefaultAsync(x => x.Id == id)
         : await Entities.SingleOrDefaultAsync(x => x.Id == id);
+
+    public Task<Customer?> GetByDocument(string document)
+        => EntitiesAsNoTracking.SingleOrDefaultAsync(x => x.Document == document);
 }
