@@ -1,4 +1,5 @@
 ﻿using Application.Customers.Create;
+using Application.Customers.GetById;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Results;
 
@@ -22,8 +23,7 @@ public class CustomersController : ApiController
     [HttpGet("{customerId:guid}")]
     public async Task<IActionResult> GetById(Guid customerId)
     {
-        await Task.CompletedTask;
-
-        return Ok();
+        var result = await Sender.Send(new GetCustomerByIdQuery(customerId));
+        return result.Match(Ok, Problem);
     }
 }
