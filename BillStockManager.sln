@@ -19,7 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{96875A35
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UnitTests", "tests\Application.UnitTests\Application.UnitTests.csproj", "{EB98639B-30B8-4262-85CB-935B7802813F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.UnitTests", "tests\Domain.UnitTests\Domain.UnitTests.csproj", "{926D2507-B1B5-41FF-B07D-5B2CF416649E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.UnitTests", "tests\Domain.UnitTests\Domain.UnitTests.csproj", "{926D2507-B1B5-41FF-B07D-5B2CF416649E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Architecture.Tests", "tests\Architecture.Tests\Architecture.Tests.csproj", "{C5538676-324F-4B38-AA3F-C4C9B5F71AA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{926D2507-B1B5-41FF-B07D-5B2CF416649E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{926D2507-B1B5-41FF-B07D-5B2CF416649E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{926D2507-B1B5-41FF-B07D-5B2CF416649E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5538676-324F-4B38-AA3F-C4C9B5F71AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5538676-324F-4B38-AA3F-C4C9B5F71AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5538676-324F-4B38-AA3F-C4C9B5F71AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5538676-324F-4B38-AA3F-C4C9B5F71AA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{9FF8FBC4-0E27-4AE1-9A69-7BCE55BAA999} = {1A288FA8-8AE4-4783-B4D1-CD37EF16BD5B}
 		{EB98639B-30B8-4262-85CB-935B7802813F} = {96875A35-348D-48E4-90C0-A47871E97412}
 		{926D2507-B1B5-41FF-B07D-5B2CF416649E} = {96875A35-348D-48E4-90C0-A47871E97412}
+		{C5538676-324F-4B38-AA3F-C4C9B5F71AA6} = {96875A35-348D-48E4-90C0-A47871E97412}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EACA37DD-76E5-44DA-9196-2CC138977BB3}
