@@ -25,7 +25,7 @@ public sealed class Customer : BaseAuditableEntity
         PhoneNumber = phoneNumber;
         Address = address;
 
-        RaiseEvent(new CustomerUpdatedEvent(Id));
+        RaiseEvent(new CustomerUpdatedDomainEvent(Id));
     }
 
     public Result<Success> AddInvoice(Invoice invoice)
@@ -95,7 +95,7 @@ public sealed class Customer : BaseAuditableEntity
 
         public Customer Build()
         {
-            _customer.RaiseEvent(new CustomerCreatedEvent(_customer));
+            _customer.RaiseEvent(new CustomerCreatedDomainEvent(_customer));
             return _customer;
         }
     }
