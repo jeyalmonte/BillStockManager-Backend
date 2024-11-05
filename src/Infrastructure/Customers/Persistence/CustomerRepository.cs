@@ -1,7 +1,9 @@
 ﻿using Domain.Customers;
 using Domain.Customers.Repositories;
+using Infrastructure.Common.Extensions;
 using Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Specification;
 
 namespace Infrastructure.Customers.Persistence;
 public class CustomerRepository(AppDbContext dbContext) : AppDbContextAccess<Customer>(dbContext), ICustomerRepository
@@ -14,4 +16,17 @@ public class CustomerRepository(AppDbContext dbContext) : AppDbContextAccess<Cus
 
     public Task<Customer?> GetByDocument(string document)
         => EntitiesAsNoTracking.SingleOrDefaultAsync(x => x.Document == document);
+
+    public async Task<ICollection<Customer>> GetPaginatedByFilterAsync(Specification<Customer> specification,
+        int pageNumber = 0,
+        int pageSize = int.MaxValue,
+        CancellationToken cancellationToken = default)
+        => await EntitiesAsNoTracking
+            .Specify(specification)
+            .ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
+
+    public async Task<int> GetTotal(Specification<Customer> specification, CancellationToken cancellationToken = default)
+        => await EntitiesAsNoTracking
+            .Specify(specification)
+            .CountAsync(cancellationToken);
 }
