@@ -14,7 +14,7 @@ public class CreateCustomerCommandHandler(
 {
     public async Task<Result<CustomerResponse>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
-        var existingDocument = await customerRepository.GetByDocument(request.Document);
+        var existingDocument = await customerRepository.GetByDocumentAsync(request.Document);
 
         if (existingDocument is not null)
         {

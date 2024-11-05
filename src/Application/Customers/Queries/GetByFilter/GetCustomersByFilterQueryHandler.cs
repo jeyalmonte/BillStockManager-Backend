@@ -8,34 +8,28 @@ using SharedKernel.Contracts.Customers;
 namespace Application.Customers.Queries.GetByFilter;
 public class GetCustomersByFilterQueryHandler(ICustomerRepository customerRepository) : IRequestHandler<GetCustomersByFilterQuery, PaginatedResult<CustomerResponse>>
 {
-    public async Task<PaginatedResult<CustomerResponse>> Handle(GetCustomersByFilterQuery request, CancellationToken cancellationToken)
-    {
-        var specification = new GetCustomersByFilterSpecification(request);
+	public async Task<PaginatedResult<CustomerResponse>> Handle(GetCustomersByFilterQuery request, CancellationToken cancellationToken)
+	{
+		var specification = new GetCustomersByFilterSpecification(request);
 
-        var customersTask = customerRepository.GetPaginatedByFilterAsync(
-            specification: specification,
-            pageNumber: request.PageNumber,
-            pageSize: request.PageSize,
-            cancellationToken: cancellationToken);
+		var customers = await customerRepository.GetAllBySpecAsync(
+			specification: specification,
+			pageNumber: request.PageNumber,
+			pageSize: request.PageSize,
+			cancellationToken: cancellationToken);
 
-        var totalTask = customerRepository.GetTotal(
-            specification: specification,
-            cancellationToken: cancellationToken);
+		var total = await customerRepository.GetTotalAsync(
+			specification: specification,
+			cancellationToken: cancellationToken);
 
-        await Task.WhenAll(customersTask, totalTask);
+		var customersResponse = customers.Adapt<IReadOnlyCollection<CustomerResponse>>();
 
-        var total = await totalTask;
-        var customers = await customersTask;
+		var result = PaginatedResult<CustomerResponse>.Create(
+			items: customersResponse,
+			total: total,
+			pageNumber: request.PageNumber,
+			pageSize: request.PageSize);
 
-
-        var customersResponse = customers.Adapt<IReadOnlyCollection<CustomerResponse>>();
-
-        var result = PaginatedResult<CustomerResponse>.Create(
-                items: customersResponse,
-                total: total,
-                pageNumber: request.PageNumber,
-                pageSize: request.PageSize);
-
-        return result;
-    }
+		return result;
+	}
 }
