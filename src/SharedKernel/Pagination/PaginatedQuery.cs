@@ -3,7 +3,7 @@
 public record PaginatedQuery
 {
     private const int DefaultPageNumber = 1;
-    private const int DefaultPageSize = 25;
+    private const int DefaultPageSize = 20;
     private readonly int? _pageSize;
     private readonly int? _pageNumber;
 
