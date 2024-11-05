@@ -19,13 +19,13 @@ public readonly record struct PaginatedResult<T>
     public bool HasPreviousPage => PageNumber > 1;
     public bool HasNextPage => PageNumber < TotalPages;
 
-    public static PaginatedResult<T> Create(IReadOnlyCollection<T> items, int count, int pageNumber, int pageSize)
-        => new(items, count, pageNumber, pageSize);
+    public static PaginatedResult<T> Create(IReadOnlyCollection<T> items, int total, int pageNumber, int pageSize)
+        => new(items, total, pageNumber, pageSize);
 
     public static async Task<PaginatedResult<TSource>> CreateAsync<TSource>(IQueryable<TSource> source, int pageNumber, int pageSize,
         CancellationToken cancellationToken = default)
     {
-        var count = await source
+        var total = await source
             .CountAsync(cancellationToken);
 
         var items = await source
@@ -33,6 +33,6 @@ public readonly record struct PaginatedResult<T>
             .Take(pageSize)
             .ToListAsync(cancellationToken);
 
-        return new PaginatedResult<TSource>(items, count, pageNumber, pageSize);
+        return new PaginatedResult<TSource>(items, total, pageNumber, pageSize);
     }
 }
