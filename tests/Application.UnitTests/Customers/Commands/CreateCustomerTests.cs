@@ -5,7 +5,7 @@ using SharedKernel.Contracts.Customers;
 using SharedKernel.Interfaces;
 
 namespace Application.UnitTests.Customers.Commands;
-public class CreateCustomerCommandTests
+public class CreateCustomerTests
 {
 	private readonly Mock<ICustomerRepository> _customerRepository = new();
 	private readonly Mock<IUnitOfWork> _unitOfWork = new();
