@@ -35,9 +35,9 @@ internal class JwtGeneratorService(
 
 		var claims = new List<Claim>
 		{
-			new Claim(ClaimTypes.NameIdentifier, user.Id),
-			new Claim(ClaimTypes.Name, user.UserName!),
-			new Claim(ClaimTypes.Email, user.Email!)
+			new(ClaimTypes.NameIdentifier, user.Id),
+			new(ClaimTypes.Name, user.UserName!),
+			new(ClaimTypes.Email, user.Email!)
 		};
 
 		var roles = await userManager.GetRolesAsync(user);
@@ -57,7 +57,7 @@ internal class JwtGeneratorService(
 		return tokenHandler.WriteToken(token);
 	}
 
-	private string GenerateRefreshToken()
+	private static string GenerateRefreshToken()
 	{
 		var randomNumber = new byte[32];
 		using var rng = RandomNumberGenerator.Create();
