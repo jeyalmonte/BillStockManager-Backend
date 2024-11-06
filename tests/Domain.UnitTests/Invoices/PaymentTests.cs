@@ -6,7 +6,7 @@ namespace Domain.UnitTests.Invoices;
 public class PaymentTests
 {
 	[Fact]
-	public void Create_ShouldReturnConflict_WhenAmountIsLessThanOrEqualToZero()
+	public void Create_WhenAmountIsLessThanOrEqualToZero_ShouldReturnConflict()
 	{
 		// Arrange
 		var invoiceId = Guid.NewGuid();
@@ -26,7 +26,7 @@ public class PaymentTests
 	}
 
 	[Fact]
-	public void Create_ShouldReturnConflict_WhenReferenceNumberIsRequiredAndIsNull()
+	public void Create_WhenReferenceNumberIsNull_ShouldReturnConflict()
 	{
 		// Arrange
 		var invoiceId = Guid.NewGuid();

@@ -23,7 +23,7 @@ public class ProductTests
 	}
 
 	[Fact]
-	public void Update_ShouldReturnConflict_WhenStockIsLessThanZero()
+	public void Update_WhenStockIsLessThanZero_ShouldReturnConflict()
 	{
 		// Arrange
 		var product = Product.Create(
@@ -49,7 +49,7 @@ public class ProductTests
 	}
 
 	[Fact]
-	public void Update_ShouldReturnSuccess()
+	public void Update_ShouldUpdateProduct()
 	{
 		// Arrange
 		var product = Product.Create(
@@ -94,7 +94,7 @@ public class ProductTests
 	}
 
 	[Fact]
-	public void ReduceStock_ShouldReturnConflict_WhenQuantityIsLessThanOrEqualToZero()
+	public void ReduceStock_WhenQuantityIsLessThanOrEqualToZero_ShouldReturnConflict()
 	{
 		// Arrange
 		var product = Product.Create(
@@ -114,7 +114,7 @@ public class ProductTests
 	}
 
 	[Fact]
-	public void ReduceStock_ShouldReturnConflict_WhenQuantityExceedsAvailableStock()
+	public void ReduceStock_WhenQuantityExceedsAvailableStock_ShouldReturnConflict()
 	{
 		// Arrange
 		var product = Product.Create(
@@ -134,7 +134,7 @@ public class ProductTests
 	}
 
 	[Fact]
-	public void ReduceStock_ShouldReturnSuccess()
+	public void ReduceStock_ShouldReduceStock()
 	{
 		// Arrange
 		var product = Product.Create(
@@ -154,7 +154,7 @@ public class ProductTests
 	}
 
 	[Fact]
-	public void IncreaseStock_ShouldReturnConflict_WhenQuantityIsLessThanOrEqualToZero()
+	public void IncreaseStock_WhenQuantityIsLessThanOrEqualToZero_ShouldReturnConflict()
 	{
 		// Arrange
 		var product = Product.Create(
@@ -174,7 +174,7 @@ public class ProductTests
 	}
 
 	[Fact]
-	public void IncreaseStock_ShouldReturnSuccess()
+	public void IncreaseStock_ShoulIncreaseStock()
 	{
 		// Arrange
 		var product = Product.Create(

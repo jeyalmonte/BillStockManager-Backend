@@ -18,7 +18,7 @@ public class InvoiceTests
 	}
 
 	[Fact]
-	public void AddInvoiceDetail_ShouldReturnConflict_WhenAddingDuplicateProducts()
+	public void AddInvoiceDetail_WhenAddingDuplicateProducts_ShouldReturnConflict()
 	{
 		// Arrange
 		var invoice = Invoice.Create(customerId: Guid.NewGuid());
@@ -48,7 +48,7 @@ public class InvoiceTests
 	}
 
 	[Fact]
-	public void AddInvoiceDetail_ShouldAddInvoiceDetail_WhenAddingUniqueProducts()
+	public void AddInvoiceDetail_WhenAddingUniqueProducts__ShouldAddInvoiceDetail()
 	{
 		// Arrange
 		var invoice = Invoice.Create(customerId: Guid.NewGuid());
@@ -75,7 +75,7 @@ public class InvoiceTests
 	}
 
 	[Fact]
-	public void ProcessPayment_ShouldReturnConflict_WhenAmountExceedsOutstandingBalance()
+	public void ProcessPayment_WhenAmountExceedsOutstandingBalance_ShouldReturnConflict()
 	{
 		// Arrange
 		var invoice = Invoice.Create(customerId: Guid.NewGuid());
@@ -96,7 +96,7 @@ public class InvoiceTests
 	}
 
 	[Fact]
-	public void ProcessPayment_ShouldReturnConflict_WhenAmountExceedsTotalAmount()
+	public void ProcessPayment_WhenAmountExceedsTotalAmount_ShouldReturnConflict()
 	{
 		// Arrange
 		var invoice = Invoice.Create(customerId: Guid.NewGuid());
@@ -133,7 +133,7 @@ public class InvoiceTests
 	}
 
 	[Fact]
-	public void ProcessPayment_ShouldReturnSuccess()
+	public void ProcessPayment_ShouldProcessPayment()
 	{
 		// Arrange
 		var invoice = Invoice.Create(customerId: Guid.NewGuid());
@@ -170,7 +170,7 @@ public class InvoiceTests
 	}
 
 	[Fact]
-	public void MarkAsPaid_ShouldReturnConflict_WhenInvoiceIsAlreadyPaid()
+	public void MarkAsPaid_WhenInvoiceIsAlreadyPaid_ShouldReturnConflict()
 	{
 		// Arrange
 		var invoice = Invoice.Create(customerId: Guid.NewGuid());
@@ -249,7 +249,7 @@ public class InvoiceTests
 	}
 
 	[Fact]
-	public void MarkAsCancelled_ShouldReturnConflict_WhenInvoiceIsAlreadyCancelled()
+	public void MarkAsCancelled_WhenInvoiceIsAlreadyCancelled_ShouldReturnConflict()
 	{
 		// Arrange
 		var invoice = Invoice.Create(customerId: Guid.NewGuid());

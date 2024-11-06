@@ -12,7 +12,7 @@ public class CreateCustomerCommandTests
 	private readonly CancellationToken _cancellationToken = new();
 
 	[Fact]
-	public void CreateCustomerCommand_ShouldReturnValidationError_WhenDocumentIsEmpty()
+	public void CreateCustomerCommand_WhenDocumentIsEmpty_ShouldReturnValidationError()
 	{
 		// Arrange
 		var command = Create_CreateCustomerCommand(includeDocument: false);
@@ -26,10 +26,10 @@ public class CreateCustomerCommandTests
 	}
 
 	[Fact]
-	public async Task CreateCustomerCommand_ShouldReturnError_WhenDocumentExits()
+	public async Task CreateCustomerCommand_WhenDocumentExits_ShouldReturnConflictError()
 	{
 		// Arrange
-		var command = Create_CreateCustomerCommand(includeDocument: false);
+		var command = Create_CreateCustomerCommand();
 		var customer = Customer.NewBuilder()
 			.WithFullName("test")
 			.WithNickname("test")
@@ -51,6 +51,7 @@ public class CreateCustomerCommandTests
 
 		// Assert
 		result.HasError.Should().BeTrue();
+		result.Errors.First().ErrorType.Should().Be(ErrorType.Conflict);
 	}
 
 	[Fact]

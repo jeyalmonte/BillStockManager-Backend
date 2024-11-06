@@ -7,7 +7,7 @@ namespace Domain.UnitTests.Invoices;
 public class InvoiceDetailTests
 {
 	[Fact]
-	public void Create_ShouldReturnConflict_WhenQuantityIsLessThanOrEqualToZero()
+	public void Create_WhenQuantityIsLessThanOrEqualToZero_ShouldReturnConflict()
 	{
 		// Arrange
 		var invoiceId = Guid.NewGuid();
@@ -32,7 +32,7 @@ public class InvoiceDetailTests
 	}
 
 	[Fact]
-	public void Create_ShouldReturnConflict_WhenUnitPriceIsLessThanOrEqualToZero()
+	public void Create_WhenUnitPriceIsLessThanOrEqualToZero_ShouldReturnConflict()
 	{
 		// Arrange
 		var invoiceId = Guid.NewGuid();
@@ -57,7 +57,7 @@ public class InvoiceDetailTests
 	}
 
 	[Fact]
-	public void Create_ShouldReturnConflict_WhenDiscountIsNegative()
+	public void Create_WhenDiscountIsNegative_ShouldReturnConflict()
 	{
 		// Arrange
 		var invoiceId = Guid.NewGuid();
