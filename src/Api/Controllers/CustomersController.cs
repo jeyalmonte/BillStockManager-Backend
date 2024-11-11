@@ -44,7 +44,9 @@ public class CustomersController : ApiController
 	public async Task<IActionResult> GetByFilter([FromQuery] GetCustomersByFilterQuery query)
 	{
 		var result = await Sender.Send(query);
-		return Ok(result);
+		return result.Match(
+			response => Ok(response),
+			Problem);
 	}
 
 	[HttpPut("{customerId:guid}")]

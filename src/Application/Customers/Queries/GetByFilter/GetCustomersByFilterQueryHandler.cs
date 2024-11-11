@@ -2,13 +2,15 @@
 using Application.Customers.Specifications;
 using Domain.Customers.Repositories;
 using Mapster;
-using MediatR;
 using SharedKernel.Contracts.Customers;
+using SharedKernel.Interfaces.Messaging;
+using SharedKernel.Results;
 
 namespace Application.Customers.Queries.GetByFilter;
-public class GetCustomersByFilterQueryHandler(ICustomerRepository customerRepository) : IRequestHandler<GetCustomersByFilterQuery, PaginatedResult<CustomerResponse>>
+public class GetCustomersByFilterQueryHandler(ICustomerRepository customerRepository)
+	: IQueryHandler<GetCustomersByFilterQuery, PaginatedResult<CustomerResponse>>
 {
-	public async Task<PaginatedResult<CustomerResponse>> Handle(GetCustomersByFilterQuery request, CancellationToken cancellationToken)
+	public async Task<Result<PaginatedResult<CustomerResponse>>> Handle(GetCustomersByFilterQuery request, CancellationToken cancellationToken)
 	{
 		var specification = new GetCustomersByFilterSpecification(request);
 

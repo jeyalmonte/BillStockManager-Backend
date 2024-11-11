@@ -32,6 +32,6 @@ public class GetCustomerByFilterTests
 		var result = await handler.Handle(query, CancellationToken.None);
 
 		// Assert
-		result.Should().BeOfType<PaginatedResult<CustomerResponse>>();
+		result.Value.Should().BeOfType<PaginatedResult<CustomerResponse>>();
 	}
 }
