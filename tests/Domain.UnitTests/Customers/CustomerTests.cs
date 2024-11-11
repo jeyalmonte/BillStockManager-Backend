@@ -1,5 +1,5 @@
-﻿using Domain.Customers;
-using Domain.Invoices;
+﻿using Domain.Billing;
+using Domain.Customers;
 using FluentAssertions;
 
 namespace Domain.UnitTests.Customers;

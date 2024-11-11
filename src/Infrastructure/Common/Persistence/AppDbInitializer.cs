@@ -1,5 +1,5 @@
 ﻿using Domain.Customers;
-using Domain.Products;
+using Domain.Inventory;
 using Infrastructure.Common.Persistence.DataInitializers;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;

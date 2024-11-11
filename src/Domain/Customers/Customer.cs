@@ -1,5 +1,5 @@
-﻿using Domain.Customers.Events;
-using Domain.Invoices;
+﻿using Domain.Billing;
+using Domain.Customers.Events;
 using SharedKernel.Domain;
 using SharedKernel.Results;
 

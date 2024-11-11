@@ -1,4 +1,4 @@
-﻿using Domain.Products;
+﻿using Domain.Inventory;
 
 namespace Infrastructure.Common.Persistence.DataInitializers;
 internal static class CategoryData
