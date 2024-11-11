@@ -7,8 +7,7 @@ public class BaseAuditableEntity : Entity
 	public DateTime? UpdatedOn { get; set; }
 	public DateTime? UpdatedBy { get; set; }
 	public bool IsDeleted { get; private set; }
-
-	protected void MarkAsDeleted()
+	public void MarkAsDeleted()
 	{
 		IsDeleted = true;
 	}

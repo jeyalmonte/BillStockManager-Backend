@@ -1,5 +1,6 @@
 ﻿using Application.Common.Models;
 using Application.Customers.Commands.Create;
+using Application.Customers.Commands.Delete;
 using Application.Customers.Commands.Update;
 using Application.Customers.Queries.GetByFilter;
 using Application.Customers.Queries.GetById;
@@ -74,6 +75,19 @@ public class CustomersController : ApiController
 			);
 
 		var result = await Sender.Send(query);
+
+		return result.Match(
+			_ => NoContent(),
+			Problem);
+	}
+
+	[HttpDelete("{customerId:guid}")]
+	[EndpointSummary("Delete a customer")]
+	[ProducesResponseType(StatusCodes.Status204NoContent)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
+	public async Task<IActionResult> Delete(Guid customerId)
+	{
+		var result = await Sender.Send(new DeleteCustomerCommand(customerId));
 
 		return result.Match(
 			_ => NoContent(),
