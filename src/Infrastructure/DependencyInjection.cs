@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Identity.Interfaces;
 using Domain.Customers.Repositories;
+using Domain.Inventory.Repositories;
 using Infrastructure.Common.Persistence;
 using Infrastructure.Common.Persistence.Interceptors;
 using Infrastructure.Common.Services;
@@ -8,6 +9,7 @@ using Infrastructure.Customers.Persistence;
 using Infrastructure.Identity;
 using Infrastructure.Identity.Configuration;
 using Infrastructure.Identity.Services;
+using Infrastructure.Inventory.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +50,7 @@ public static class DependencyInjection
                 .AddTransient<IAppDbInitializer, AppDbInitializer>();
 
         services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         return services;
     }
