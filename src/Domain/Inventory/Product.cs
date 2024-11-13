@@ -5,117 +5,119 @@ using SharedKernel.Results;
 namespace Domain.Inventory;
 public sealed class Product : BaseAuditableEntity
 {
-	public string Name { get; private set; } = null!;
-	public Guid CategoryId { get; private set; }
-	public Category Category { get; private set; } = null!;
-	public string? Description { get; private set; }
-	public decimal Price { get; private set; }
-	public int Stock { get; private set; }
-	public decimal? Discount { get; private set; }
-	public Product(string name, Guid categoryId, string? description, decimal price, int stock, decimal? discount)
-	{
-		Name = name;
-		CategoryId = categoryId;
-		Description = description;
-		Price = price;
-		Stock = stock;
-		Discount = discount;
-	}
+    public string Name { get; private set; } = null!;
+    public Guid CategoryId { get; private set; }
+    public Category Category { get; private set; } = null!;
+    public string? Description { get; private set; }
+    public decimal Price { get; private set; }
+    public int Stock { get; private set; }
+    public decimal? Discount { get; private set; }
+    public Product(string name, Guid categoryId, string? description, decimal price, int stock, decimal? discount)
+    {
+        Name = name;
+        CategoryId = categoryId;
+        Description = description;
+        Price = price;
+        Stock = stock;
+        Discount = discount;
+    }
 
-	public static Product Create(string name, Guid categoryId, string? description, decimal price, int stock, decimal? discount = 0)
-	{
-		var product = new Product(
-			name: name,
-			categoryId: categoryId,
-			description: description,
-			price: price,
-			stock: stock,
-			discount: discount);
+    public static Product Create(string name, Guid categoryId, string? description, decimal price, int stock, decimal? discount = 0)
+    {
+        var product = new Product(
+            name: name,
+            categoryId: categoryId,
+            description: description,
+            price: price,
+            stock: stock,
+            discount: discount);
 
-		return product;
-	}
+        product.RaiseEvent(new ProductCreatedDomainEvent(product.Id));
 
-	public Result<Success> Update(string name, string? description, Guid categoryId, decimal price, int newStock, decimal? discount = 0)
-	{
-		var stockResult = HandleStockChange(newStock);
+        return product;
+    }
 
-		if (stockResult.HasError)
-		{
-			return stockResult;
-		}
+    public Result<Success> Update(string name, string? description, Guid categoryId, decimal price, int newStock, decimal? discount = 0)
+    {
+        var stockResult = HandleStockChange(newStock);
 
-		Name = name;
-		CategoryId = categoryId;
-		Description = description;
-		Price = price;
-		Discount = discount;
+        if (stockResult.HasError)
+        {
+            return stockResult;
+        }
 
-		RaiseEvent(new ProductUpdatedDomainEvent(this));
+        Name = name;
+        CategoryId = categoryId;
+        Description = description;
+        Price = price;
+        Discount = discount;
 
-		return Result.Success;
-	}
+        RaiseEvent(new ProductUpdatedDomainEvent(this));
 
-	public void Remove()
-	{
-		MarkAsDeleted();
-		RaiseEvent(new ProductRemovedDomainEvent(this));
-	}
+        return Result.Success;
+    }
 
-	public Result<Success> ReduceStock(int quantity)
-	{
-		if (quantity <= 0)
-		{
-			return Error.Conflict(description: "Quantity must be greater than zero.");
-		}
+    public void Remove()
+    {
+        MarkAsDeleted();
+        RaiseEvent(new ProductRemovedDomainEvent(this));
+    }
 
-		if (Stock < quantity)
-		{
-			return Error.Conflict(description: "Quantity exceeds the available stock.");
-		}
+    public Result<Success> ReduceStock(int quantity)
+    {
+        if (quantity <= 0)
+        {
+            return Error.Conflict(description: "Quantity must be greater than zero.");
+        }
 
-		Stock -= quantity;
+        if (Stock < quantity)
+        {
+            return Error.Conflict(description: "Quantity exceeds the available stock.");
+        }
 
-		RaiseEvent(new ProductStockReducedDomainEvent(Id, quantity));
+        Stock -= quantity;
 
-		return Result.Success;
-	}
+        RaiseEvent(new ProductStockReducedDomainEvent(Id, quantity));
 
-	public Result<Success> IncreaseStock(int quantity)
-	{
-		if (quantity <= 0)
-		{
-			return Error.Conflict(description: "Quantity must be greater than zero.");
-		}
+        return Result.Success;
+    }
 
-		Stock += quantity;
+    public Result<Success> IncreaseStock(int quantity)
+    {
+        if (quantity <= 0)
+        {
+            return Error.Conflict(description: "Quantity must be greater than zero.");
+        }
 
-		RaiseEvent(new ProductStockIncreasedDomainEvent(Id, quantity));
+        Stock += quantity;
 
-		return Result.Success;
-	}
+        RaiseEvent(new ProductStockIncreasedDomainEvent(Id, quantity));
 
-	public decimal GetPriceAfterDiscount()
-	{
-		if (!Discount.HasValue || Discount.Value <= 0)
-		{
-			return Price;
-		}
+        return Result.Success;
+    }
 
-		return Price - Discount.Value;
-	}
+    public decimal GetPriceAfterDiscount()
+    {
+        if (!Discount.HasValue || Discount.Value <= 0)
+        {
+            return Price;
+        }
 
-	private Result<Success> HandleStockChange(int newStock)
-	{
-		if (Stock > newStock)
-		{
-			return ReduceStock(Stock - newStock);
-		}
-		else if (Stock < newStock)
-		{
-			return IncreaseStock(newStock - Stock);
-		}
+        return Price - Discount.Value;
+    }
 
-		return Result.Success;
-	}
-	private Product() { }
+    private Result<Success> HandleStockChange(int newStock)
+    {
+        if (Stock > newStock)
+        {
+            return ReduceStock(Stock - newStock);
+        }
+        else if (Stock < newStock)
+        {
+            return IncreaseStock(newStock - Stock);
+        }
+
+        return Result.Success;
+    }
+    private Product() { }
 }
