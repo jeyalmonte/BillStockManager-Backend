@@ -1,7 +1,9 @@
 ﻿using Domain.Inventory;
 using Domain.Inventory.Repositories;
+using Infrastructure.Common.Extensions;
 using Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Specification;
 
 namespace Infrastructure.Inventory.Persistence.Repositories;
 internal class ProductRepository(AppDbContext dbContext)
@@ -16,4 +18,17 @@ internal class ProductRepository(AppDbContext dbContext)
 
     public Task<Product?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
         => EntitiesAsNoTracking.SingleOrDefaultAsync(x => x.Name == name, cancellationToken);
+
+    public async Task<ICollection<Product>> GetAllBySpecAsync(Specification<Product> specification,
+        int pageSize = 0,
+        int pageNumber = 0,
+        CancellationToken cancellationToken = default)
+        => await EntitiesAsNoTracking
+            .Specify(specification)
+            .ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
+
+    public Task<int> GetTotalAsync(Specification<Product> specification, CancellationToken cancellationToken = default)
+        => EntitiesAsNoTracking
+            .Specify(specification)
+            .CountAsync(cancellationToken);
 }
