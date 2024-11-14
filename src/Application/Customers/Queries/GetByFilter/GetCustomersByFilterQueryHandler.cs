@@ -8,30 +8,30 @@ using SharedKernel.Results;
 
 namespace Application.Customers.Queries.GetByFilter;
 public class GetCustomersByFilterQueryHandler(ICustomerRepository customerRepository)
-	: IQueryHandler<GetCustomersByFilterQuery, PaginatedResult<CustomerResponse>>
+    : IQueryHandler<GetCustomersByFilterQuery, PaginatedResult<CustomerResponse>>
 {
-	public async Task<Result<PaginatedResult<CustomerResponse>>> Handle(GetCustomersByFilterQuery request, CancellationToken cancellationToken)
-	{
-		var specification = new GetCustomersByFilterSpecification(request);
+    public async Task<Result<PaginatedResult<CustomerResponse>>> Handle(GetCustomersByFilterQuery request, CancellationToken cancellationToken)
+    {
+        var specification = new GetCustomersByFilterSpecification(request);
 
-		var customers = await customerRepository.GetAllBySpecAsync(
-			specification: specification,
-			pageNumber: request.PageNumber,
-			pageSize: request.PageSize,
-			cancellationToken: cancellationToken);
+        var customers = await customerRepository.GetAllBySpecAsync(
+            specification: specification,
+            pageNumber: request.PageNumber,
+            pageSize: request.PageSize,
+            cancellationToken: cancellationToken);
 
-		var total = await customerRepository.GetTotalAsync(
-			specification: specification,
-			cancellationToken: cancellationToken);
+        var total = await customerRepository.GetTotalAsync(
+            specification: specification,
+            cancellationToken: cancellationToken);
 
-		var customersResponse = customers.Adapt<IReadOnlyCollection<CustomerResponse>>();
+        var customersResponse = customers.Adapt<IReadOnlyCollection<CustomerResponse>>();
 
-		var result = PaginatedResult<CustomerResponse>.Create(
-			items: customersResponse,
-			total: total,
-			pageNumber: request.PageNumber,
-			pageSize: request.PageSize);
+        var result = PaginatedResult<CustomerResponse>.Create(
+            items: customersResponse,
+            totalItems: total,
+            pageNumber: request.PageNumber,
+            pageSize: request.PageSize);
 
-		return result;
-	}
+        return result;
+    }
 }

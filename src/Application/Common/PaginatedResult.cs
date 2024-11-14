@@ -4,23 +4,24 @@ namespace Application.Common.Models;
 
 public readonly record struct PaginatedResult<T>
 {
-    private PaginatedResult(IReadOnlyCollection<T> items, int count, int pageNumber, int pageSize)
+    private PaginatedResult(IReadOnlyCollection<T> items, int totalItems, int pageNumber, int pageSize)
     {
-        PageNumber = pageNumber;
-        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-        TotalCount = count;
+        CurrentPage = pageNumber;
+        TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+        TotalItems = totalItems;
         Items = items;
     }
 
     public IReadOnlyCollection<T> Items { get; }
-    public int PageNumber { get; }
+    public int CurrentPage { get; }
+    public int CurrentPageCount => Items.Count;
+    public int TotalItems { get; }
     public int TotalPages { get; }
-    public int TotalCount { get; }
-    public bool HasPreviousPage => PageNumber > 1;
-    public bool HasNextPage => PageNumber < TotalPages;
+    public bool HasPreviousPage => CurrentPage > 1;
+    public bool HasNextPage => CurrentPage < TotalPages;
 
-    public static PaginatedResult<T> Create(IReadOnlyCollection<T> items, int total, int pageNumber, int pageSize)
-        => new(items, total, pageNumber, pageSize);
+    public static PaginatedResult<T> Create(IReadOnlyCollection<T> items, int totalItems, int pageNumber, int pageSize)
+        => new(items, totalItems, pageNumber, pageSize);
 
     public static async Task<PaginatedResult<TSource>> CreateAsync<TSource>(IQueryable<TSource> source, int pageNumber, int pageSize,
         CancellationToken cancellationToken = default)
