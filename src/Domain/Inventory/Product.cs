@@ -37,15 +37,8 @@ public sealed class Product : BaseAuditableEntity
         return product;
     }
 
-    public Result<Success> Update(string name, string? description, Guid categoryId, decimal price, int newStock, decimal? discount = 0)
+    public void Update(string name, string? description, Guid categoryId, decimal price, decimal? discount = 0)
     {
-        var stockResult = HandleStockChange(newStock);
-
-        if (stockResult.HasError)
-        {
-            return stockResult;
-        }
-
         Name = name;
         CategoryId = categoryId;
         Description = description;
@@ -53,8 +46,6 @@ public sealed class Product : BaseAuditableEntity
         Discount = discount;
 
         RaiseEvent(new ProductUpdatedDomainEvent(this));
-
-        return Result.Success;
     }
 
     public void Remove()
@@ -106,18 +97,5 @@ public sealed class Product : BaseAuditableEntity
         return Price - Discount.Value;
     }
 
-    private Result<Success> HandleStockChange(int newStock)
-    {
-        if (Stock > newStock)
-        {
-            return ReduceStock(Stock - newStock);
-        }
-        else if (Stock < newStock)
-        {
-            return IncreaseStock(newStock - Stock);
-        }
-
-        return Result.Success;
-    }
     private Product() { }
 }

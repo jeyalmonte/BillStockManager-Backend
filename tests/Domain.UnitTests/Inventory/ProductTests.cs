@@ -23,32 +23,6 @@ public class ProductTests
     }
 
     [Fact]
-    public void Update_WhenStockIsLessThanZero_ShouldReturnConflict()
-    {
-        // Arrange
-        var product = Product.Create(
-            name: "Test",
-            categoryId: Guid.NewGuid(),
-            description: null,
-            price: 100,
-            stock: 10
-        );
-
-        // Act
-        var result = product.Update(
-            name: "Test",
-            categoryId: Guid.NewGuid(),
-            description: null,
-            price: 100,
-            newStock: -1
-        );
-
-        // Assert
-        result.HasError.Should().BeTrue();
-        result.Errors.First().ErrorType.Should().Be(ErrorType.Conflict);
-    }
-
-    [Fact]
     public void Update_ShouldUpdateProduct()
     {
         // Arrange
@@ -60,18 +34,17 @@ public class ProductTests
             stock: 10
         );
 
+        var nameUpdated = "TestUpdate";
+
         // Act
-        var result = product.Update(
-            name: "Test",
+        product.Update(
+            name: nameUpdated,
             categoryId: Guid.NewGuid(),
             description: null,
-            price: 100,
-            newStock: 20
-        );
+            price: 100);
 
         // Assert
-        result.HasError.Should().BeFalse();
-        product.Stock.Should().Be(20);
+        product.Name.Should().Be(nameUpdated);
     }
 
     [Fact]
