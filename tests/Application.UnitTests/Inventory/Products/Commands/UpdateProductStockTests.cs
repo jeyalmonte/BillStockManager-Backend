@@ -1,26 +1,26 @@
-﻿using Application.Inventory.Products.Commands.ReduceStock;
+﻿using Application.Inventory.Products.Commands.UpdateStock;
 using Domain.Inventory;
 using Domain.Inventory.Repositories;
 using SharedKernel.Interfaces;
 
 namespace Application.UnitTests.Inventory.Products.Commands;
-public class ReduceProductStockTests
+public class UpdateProductStockTests
 {
 	private readonly Mock<IProductRepository> _productRepository = new();
 	private readonly Mock<IUnitOfWork> _unitOfWork = new();
 
 	[Fact]
-	public async Task ReduceProductStock_WhenProductNotFound_ShouldReturnNotFoundError()
+	public async Task UpdateProductStock_WhenProductNotFound_ShouldReturnNotFoundError()
 	{
 		// Arrange
 		_productRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync((Product?)null);
 
-		var handler = new ReduceProductStockCommandHandler(
+		var handler = new UpdateProductStockCommandHandler(
 			productRepository: _productRepository.Object,
 			unitOfWork: _unitOfWork.Object);
 
-		var command = CreateReduceProductStockCommand();
+		var command = CreateUpdateProductStockCommand();
 
 		// Act
 		var result = await handler.Handle(command, CancellationToken.None);
@@ -31,7 +31,7 @@ public class ReduceProductStockTests
 	}
 
 	[Fact]
-	public async Task ReduceProductStock_WhenQuantityIsLessThanZero_ShouldReturnFailureError()
+	public async Task UpdateProductStock_WhenQuantityIsEqualToZero_ShouldReturnFailureError()
 	{
 		// Arrange
 		var product = Product.Create(
@@ -44,11 +44,11 @@ public class ReduceProductStockTests
 		_productRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync(product);
 
-		var handler = new ReduceProductStockCommandHandler(
+		var handler = new UpdateProductStockCommandHandler(
 			productRepository: _productRepository.Object,
 			unitOfWork: _unitOfWork.Object);
 
-		var command = CreateReduceProductStockCommand(quantity: -1);
+		var command = CreateUpdateProductStockCommand(quantity: 0);
 
 		// Act
 		var result = await handler.Handle(command, CancellationToken.None);
@@ -59,7 +59,35 @@ public class ReduceProductStockTests
 	}
 
 	[Fact]
-	public async Task ReduceProductStock_WhenQuantityExceedsStock_ShouldReturnConflictError()
+	public async Task UpdateProductStock_WhenIncreasingStockWithValidQuantity_ShouldIncreaseStock()
+	{
+		// Arrange
+		var product = Product.Create(
+			name: "Product",
+			categoryId: Guid.NewGuid(),
+			description: "Description",
+			price: 10,
+			stock: 10);
+
+		_productRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+			.ReturnsAsync(product);
+
+		var handler = new UpdateProductStockCommandHandler(
+			productRepository: _productRepository.Object,
+			unitOfWork: _unitOfWork.Object);
+
+		var command = CreateUpdateProductStockCommand();
+
+		// Act
+		var result = await handler.Handle(command, CancellationToken.None);
+
+		// Assert
+		result.HasError.Should().BeFalse();
+		product.Stock.Should().Be(11);
+	}
+
+	[Fact]
+	public async Task UpdateProductStock_WhenQuantityToReduceExceedsStock_ShouldReturnConflictError()
 	{
 		// Arrange
 		var product = Product.Create(
@@ -72,11 +100,11 @@ public class ReduceProductStockTests
 		_productRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync(product);
 
-		var handler = new ReduceProductStockCommandHandler(
+		var handler = new UpdateProductStockCommandHandler(
 			productRepository: _productRepository.Object,
 			unitOfWork: _unitOfWork.Object);
 
-		var command = CreateReduceProductStockCommand(quantity: 2);
+		var command = CreateUpdateProductStockCommand(quantity: -2);
 
 		// Act
 		var result = await handler.Handle(command, CancellationToken.None);
@@ -87,7 +115,7 @@ public class ReduceProductStockTests
 	}
 
 	[Fact]
-	public async Task ReduceProductStock_WhenProductExistsAndQuantityIsValid_ShouldReduceStock()
+	public async Task UpdateProductStock_WhenReducingStockWithValidQuantity_ShouldReduceStock()
 	{
 		// Arrange
 		var product = Product.Create(
@@ -100,11 +128,11 @@ public class ReduceProductStockTests
 		_productRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync(product);
 
-		var handler = new ReduceProductStockCommandHandler(
+		var handler = new UpdateProductStockCommandHandler(
 			productRepository: _productRepository.Object,
 			unitOfWork: _unitOfWork.Object);
 
-		var command = CreateReduceProductStockCommand();
+		var command = CreateUpdateProductStockCommand(quantity: -1);
 
 		// Act
 		var result = await handler.Handle(command, CancellationToken.None);
@@ -114,9 +142,9 @@ public class ReduceProductStockTests
 		product.Stock.Should().Be(9);
 	}
 
-	private static ReduceProductStockCommand CreateReduceProductStockCommand(int quantity = 1)
+	private static UpdateProductStockCommand CreateUpdateProductStockCommand(int quantity = 1)
 	{
-		return new ReduceProductStockCommand(
+		return new UpdateProductStockCommand(
 			ProductId: Guid.NewGuid(),
 			Quantity: quantity);
 	}

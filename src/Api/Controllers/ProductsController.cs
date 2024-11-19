@@ -1,7 +1,7 @@
 ﻿using Application.Common.Models;
 using Application.Inventory.Products.Commands.Create;
-using Application.Inventory.Products.Commands.ReduceStock;
 using Application.Inventory.Products.Commands.Update;
+using Application.Inventory.Products.Commands.UpdateStock;
 using Application.Inventory.Products.Queries.GetByFilter;
 using Application.Inventory.Products.Queries.GetById;
 using Microsoft.AspNetCore.Mvc;
@@ -76,14 +76,14 @@ public class ProductsController : ApiController
 			Problem);
 	}
 
-	[HttpPatch("{productId:guid}/stock/reduce")]
-	[EndpointSummary("Reduce product stock")]
+	[HttpPatch("{productId:guid}/stock")]
+	[EndpointSummary("Increase or reduce product stock")]
 	[ProducesResponseType(StatusCodes.Status204NoContent)]
 	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
-	public async Task<IActionResult> ReduceStock(Guid productId, [FromBody] ReduceProductStockRequest request)
+	public async Task<IActionResult> UpdateStock(Guid productId, [FromBody] UpdateProductStockRequest request)
 	{
-		var command = new ReduceProductStockCommand(
+		var command = new UpdateProductStockCommand(
 			ProductId: productId,
 			Quantity: request.Quantity);
 

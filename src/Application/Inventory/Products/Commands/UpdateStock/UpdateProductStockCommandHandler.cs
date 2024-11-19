@@ -3,13 +3,13 @@ using SharedKernel.Interfaces;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Results;
 
-namespace Application.Inventory.Products.Commands.ReduceStock;
-public class ReduceProductStockCommandHandler(
+namespace Application.Inventory.Products.Commands.UpdateStock;
+public class UpdateProductStockCommandHandler(
 	IProductRepository productRepository,
 	IUnitOfWork unitOfWork)
-	: ICommandHandler<ReduceProductStockCommand, Success>
+	: ICommandHandler<UpdateProductStockCommand, Success>
 {
-	public async Task<Result<Success>> Handle(ReduceProductStockCommand request, CancellationToken cancellationToken)
+	public async Task<Result<Success>> Handle(UpdateProductStockCommand request, CancellationToken cancellationToken)
 	{
 		var product = await productRepository.GetByIdAsync(
 			id: request.ProductId,
@@ -21,11 +21,11 @@ public class ReduceProductStockCommandHandler(
 			return Error.NotFound(description: "Product not found.");
 		}
 
-		var result = product.ReduceStock(quantity: request.Quantity);
+		var result = product.HandleStockChange(request.Quantity);
 
 		if (result.HasError)
 		{
-			return result;
+			return result.Errors;
 		}
 
 		await unitOfWork.CommitAsync(cancellationToken);

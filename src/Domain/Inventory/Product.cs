@@ -54,39 +54,6 @@ public sealed class Product : BaseAuditableEntity
 		RaiseEvent(new ProductRemovedDomainEvent(this));
 	}
 
-	public Result<Success> ReduceStock(int quantity)
-	{
-		if (quantity <= 0)
-		{
-			return Error.Failure(description: "Quantity must be greater than zero.");
-		}
-
-		if (Stock < quantity)
-		{
-			return Error.Conflict(description: "Quantity exceeds the available stock.");
-		}
-
-		Stock -= quantity;
-
-		RaiseEvent(new ProductStockReducedDomainEvent(Id, quantity));
-
-		return Result.Success;
-	}
-
-	public Result<Success> IncreaseStock(int quantity)
-	{
-		if (quantity <= 0)
-		{
-			return Error.Conflict(description: "Quantity must be greater than zero.");
-		}
-
-		Stock += quantity;
-
-		RaiseEvent(new ProductStockIncreasedDomainEvent(Id, quantity));
-
-		return Result.Success;
-	}
-
 	public decimal GetPriceAfterDiscount()
 	{
 		if (!Discount.HasValue || Discount.Value <= 0)
@@ -97,6 +64,44 @@ public sealed class Product : BaseAuditableEntity
 		var totalDiscount = Price * (Discount.Value / 100);
 
 		return Price - totalDiscount;
+	}
+
+	public Result<Success> HandleStockChange(int quantity)
+	{
+		if (quantity == 0)
+		{
+			return Error.Failure(description: "Quantity cannot be zero.");
+		}
+
+		if (quantity > 0)
+		{
+			return IncreaseStock(quantity);
+		}
+
+		return ReduceStock(Math.Abs(quantity));
+	}
+
+	private Result<Success> IncreaseStock(int quantity)
+	{
+		Stock += quantity;
+
+		RaiseEvent(new ProductStockChangedDomainEvent(Id, quantity));
+
+		return Result.Success;
+	}
+
+	private Result<Success> ReduceStock(int quantity)
+	{
+		if (quantity > Stock)
+		{
+			return Error.Conflict(description: "Quantity exceeds the available stock.");
+		}
+
+		Stock -= quantity;
+
+		RaiseEvent(new ProductStockChangedDomainEvent(Id, -quantity));
+
+		return Result.Success;
 	}
 
 	private Product() { }
