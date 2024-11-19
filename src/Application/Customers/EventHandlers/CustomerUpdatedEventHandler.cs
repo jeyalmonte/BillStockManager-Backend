@@ -1,9 +1,10 @@
 ﻿using Domain.Customers.Events;
-using MediatR;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Interfaces.Messaging;
 
-namespace Application.Customers.Events;
-internal class CustomerUpdatedEventHandler(ILogger<CustomerUpdatedEventHandler> logger) : INotificationHandler<CustomerUpdatedDomainEvent>
+namespace Application.Customers.EventHandlers;
+internal class CustomerUpdatedEventHandler(ILogger<CustomerUpdatedEventHandler> logger)
+	: IEventHandler<CustomerUpdatedDomainEvent>
 {
 	public async Task Handle(CustomerUpdatedDomainEvent notification, CancellationToken cancellationToken)
 	{

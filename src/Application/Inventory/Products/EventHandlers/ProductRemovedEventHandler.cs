@@ -1,10 +1,10 @@
 ﻿using Domain.Inventory.Events;
-using MediatR;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Interfaces.Messaging;
 
 namespace Application.Inventory.Products.EventHandlers;
-internal class ProductRemovedEventHandler(ILogger<ProductCreatedEventHandler> logger)
-	: INotificationHandler<ProductRemovedDomainEvent>
+internal class ProductRemovedEventHandler(ILogger<ProductRemovedEventHandler> logger)
+	: IEventHandler<ProductRemovedDomainEvent>
 {
 	public Task Handle(ProductRemovedDomainEvent notification, CancellationToken cancellationToken)
 	{

@@ -1,14 +1,14 @@
 ﻿using Domain.Inventory.Events;
-using MediatR;
 using Microsoft.Extensions.Logging;
+using SharedKernel.Interfaces.Messaging;
 
 namespace Application.Inventory.Categories.EventHandlers;
-public class CategoryCreatedEventHandler(ILogger<CategoryCreatedEventHandler> logger)
-    : INotificationHandler<CategoryCreatedDomainEvent>
+internal class CategoryCreatedEventHandler(ILogger<CategoryCreatedEventHandler> logger)
+	: IEventHandler<CategoryCreatedDomainEvent>
 {
-    public async Task Handle(CategoryCreatedDomainEvent notification, CancellationToken cancellationToken)
-    {
-        await Task.CompletedTask;
-        logger.LogInformation("Category with id '{Id}' was created.", notification.Category.Id);
-    }
+	public async Task Handle(CategoryCreatedDomainEvent notification, CancellationToken cancellationToken)
+	{
+		await Task.CompletedTask;
+		logger.LogInformation("Category with id '{Id}' was created.", notification.Category.Id);
+	}
 }
