@@ -1,5 +1,6 @@
 ﻿using Application.Common.Models;
 using Application.Inventory.Products.Commands.Create;
+using Application.Inventory.Products.Commands.ReduceStock;
 using Application.Inventory.Products.Commands.Update;
 using Application.Inventory.Products.Queries.GetByFilter;
 using Application.Inventory.Products.Queries.GetById;
@@ -67,6 +68,24 @@ public class ProductsController : ApiController
 			CategoryId: request.CategoryId,
 			Price: request.Price,
 			Discount: request.Discount);
+
+		var result = await Sender.Send(command);
+
+		return result.Match(
+			_ => NoContent(),
+			Problem);
+	}
+
+	[HttpPatch("{productId:guid}/stock/reduce")]
+	[EndpointSummary("Reduce product stock")]
+	[ProducesResponseType(StatusCodes.Status204NoContent)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<IActionResult> ReduceStock(Guid productId, [FromBody] ReduceProductStockRequest request)
+	{
+		var command = new ReduceProductStockCommand(
+			ProductId: productId,
+			Quantity: request.Quantity);
 
 		var result = await Sender.Send(command);
 

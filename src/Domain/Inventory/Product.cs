@@ -58,7 +58,7 @@ public sealed class Product : BaseAuditableEntity
 	{
 		if (quantity <= 0)
 		{
-			return Error.Conflict(description: "Quantity must be greater than zero.");
+			return Error.Failure(description: "Quantity must be greater than zero.");
 		}
 
 		if (Stock < quantity)
