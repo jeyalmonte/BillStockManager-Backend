@@ -1,5 +1,6 @@
 ﻿using Application.Common.Models;
 using Application.Inventory.Products.Commands.Create;
+using Application.Inventory.Products.Commands.Delete;
 using Application.Inventory.Products.Commands.Update;
 using Application.Inventory.Products.Commands.UpdateStock;
 using Application.Inventory.Products.Queries.GetByFilter;
@@ -88,6 +89,19 @@ public class ProductsController : ApiController
 			Quantity: request.Quantity);
 
 		var result = await Sender.Send(command);
+
+		return result.Match(
+			_ => NoContent(),
+			Problem);
+	}
+
+	[HttpDelete("{productId:guid}")]
+	[EndpointSummary("Delete a product")]
+	[ProducesResponseType(StatusCodes.Status204NoContent)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
+	public async Task<IActionResult> Delete(Guid productId)
+	{
+		var result = await Sender.Send(new DeleteProductCommand(productId));
 
 		return result.Match(
 			_ => NoContent(),

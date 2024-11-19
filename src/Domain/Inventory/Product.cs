@@ -51,7 +51,7 @@ public sealed class Product : BaseAuditableEntity
 	public void Remove()
 	{
 		MarkAsDeleted();
-		RaiseEvent(new ProductRemovedDomainEvent(this));
+		RaiseEvent(new ProductRemovedDomainEvent(Id));
 	}
 
 	public decimal GetPriceAfterDiscount()
