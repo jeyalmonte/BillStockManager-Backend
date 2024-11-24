@@ -1,7 +1,9 @@
 ﻿using Application.Common.Interfaces;
 using Application.Identity.Interfaces;
+using Domain.Billing.Repositories;
 using Domain.Customers.Repositories;
 using Domain.Inventory.Repositories;
+using Infrastructure.Billing.Persistence.Repositories;
 using Infrastructure.Common.Persistence;
 using Infrastructure.Common.Persistence.Interceptors;
 using Infrastructure.Common.Services;
@@ -22,82 +24,84 @@ namespace Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
-    {
-        services
-            .AddPersistence(configuration)
-            .AddServices()
-            .AddIdentity(configuration)
-            .AddHealth(configuration);
+	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+	{
+		services
+			.AddPersistence(configuration)
+			.AddServices()
+			.AddIdentity(configuration)
+			.AddHealth(configuration);
 
-        return services;
-    }
+		return services;
+	}
 
-    public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddTransient<IUnitOfWork, UnitOfWork>();
+	public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+	{
+		services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-        services
-            .AddSingleton<UpdateAuditableInterceptor>()
-            .AddSingleton<PublishDomainEventsInterceptor>();
+		services
+			.AddScoped<UpdateAuditableInterceptor>()
+			.AddScoped<PublishDomainEventsInterceptor>();
 
-        services.AddDbContext<IAppDbContext, AppDbContext>(
-            (sp, options) => options
-                .UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
-                .AddInterceptors(
-                    sp.GetRequiredService<UpdateAuditableInterceptor>(),
-                    sp.GetRequiredService<PublishDomainEventsInterceptor>()))
-                .AddTransient<IAppDbInitializer, AppDbInitializer>();
+		services.AddDbContext<IAppDbContext, AppDbContext>(
+			(sp, options) => options
+				.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+				.AddInterceptors(
+					sp.GetRequiredService<UpdateAuditableInterceptor>(),
+					sp.GetRequiredService<PublishDomainEventsInterceptor>()))
+				.AddTransient<IAppDbInitializer, AppDbInitializer>();
 
-        services.AddScoped<ICustomerRepository, CustomerRepository>();
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<IProductRepository, ProductRepository>();
+		services
+			.AddScoped<ICustomerRepository, CustomerRepository>()
+			.AddScoped<ICategoryRepository, CategoryRepository>()
+			.AddScoped<IProductRepository, ProductRepository>()
+			.AddScoped<IInvoiceRepository, InvoiceRepository>();
 
-        return services;
-    }
+		return services;
+	}
 
-    private static IServiceCollection AddServices(this IServiceCollection services)
-    {
-        services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
-        services.AddScoped<IUserProvider, UserProvider>();
+	private static IServiceCollection AddServices(this IServiceCollection services)
+	{
+		services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
+		services.AddScoped<IUserProvider, UserProvider>();
 
-        return services;
-    }
+		return services;
+	}
 
-    private static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
-    {
-        services
-           .AddTransient<IIdentityService, IdentityService>()
-           .AddTransient<IJwtGenerator, JwtGeneratorService>()
-           .AddIdentity<User, IdentityRole>(options =>
-           {
-               options.Password.RequiredLength = 8;
-               options.Password.RequireDigit = false;
-               options.Password.RequireLowercase = false;
-               options.Password.RequireNonAlphanumeric = false;
-               options.Password.RequireUppercase = false;
-           })
-           .AddEntityFrameworkStores<AppDbContext>();
+	private static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
+	{
+		services
+		   .AddTransient<IIdentityService, IdentityService>()
+		   .AddTransient<IJwtGenerator, JwtGeneratorService>()
+		   .AddIdentity<User, IdentityRole>(options =>
+		   {
+			   options.Password.RequiredLength = 8;
+			   options.Password.RequireDigit = false;
+			   options.Password.RequireLowercase = false;
+			   options.Password.RequireNonAlphanumeric = false;
+			   options.Password.RequireUppercase = false;
+		   })
+		   .AddEntityFrameworkStores<AppDbContext>();
 
-        services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.Section));
+		services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.Section));
 
-        services
-            .ConfigureOptions<JwtBearerTokenValidationConfiguration>()
-            .AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer();
+		services
+			.ConfigureOptions<JwtBearerTokenValidationConfiguration>()
+			.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
+			.AddJwtBearer();
 
-        return services;
-    }
+		return services;
+	}
 
-    private static IServiceCollection AddHealth(
-        this IServiceCollection services,
-        IConfiguration configuration)
-    {
-        var healthChecks = services.AddHealthChecks();
+	private static IServiceCollection AddHealth(
+		this IServiceCollection services,
+		IConfiguration configuration)
+	{
+		var healthChecks = services.AddHealthChecks();
 
-        healthChecks
-            .AddSqlServer(configuration.GetConnectionString("DefaultConnection")!);
+		healthChecks
+			.AddSqlServer(configuration.GetConnectionString("DefaultConnection")!);
 
-        return services;
-    }
+		return services;
+	}
 }
