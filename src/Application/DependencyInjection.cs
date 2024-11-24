@@ -1,4 +1,6 @@
-﻿using Application.Common.Behaviors;
+﻿using Application.Billing.Invoices.Services;
+using Application.Billing.Invoices.Services.Interfaces;
+using Application.Common.Behaviors;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +18,15 @@ public static class DependencyInjection
 		});
 
 		services.AddValidatorsFromAssemblyContaining(typeof(DependencyInjection));
+
+		services.AddServices();
+
+		return services;
+	}
+
+	private static IServiceCollection AddServices(this IServiceCollection services)
+	{
+		services.AddScoped<IInvoiceService, InvoiceService>();
 
 		return services;
 	}
