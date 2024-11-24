@@ -52,7 +52,9 @@ public sealed class InvoiceDetail : BaseAuditableEntity
 	private decimal CalculateSubTotal()
 	{
 		var subtotal = Quantity * UnitPrice;
-		return Discount.HasValue ? subtotal - Discount.Value : subtotal;
+		return Discount.HasValue
+			? subtotal - (subtotal * (Discount.Value / 100))
+			: subtotal;
 	}
 	private InvoiceDetail() { }
 }
