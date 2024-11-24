@@ -2,7 +2,9 @@
 using Application.Billing.Invoices.Services.Interfaces;
 using Application.Common.Behaviors;
 using FluentValidation;
+using Mapster;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Application;
 
@@ -19,6 +21,10 @@ public static class DependencyInjection
 
 		services.AddValidatorsFromAssemblyContaining(typeof(DependencyInjection));
 
+		var config = TypeAdapterConfig.GlobalSettings;
+		config.Scan(Assembly.GetExecutingAssembly());
+
+		services.AddSingleton(config);
 		services.AddServices();
 
 		return services;
