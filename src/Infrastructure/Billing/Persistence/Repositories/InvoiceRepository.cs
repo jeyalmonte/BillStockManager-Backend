@@ -13,4 +13,9 @@ internal class InvoiceRepository(AppDbContext dbContext) : AppDbContextAccess<In
 		=> asNoTracking
 			? await EntitiesAsNoTracking.SingleOrDefaultAsync(e => e.Id == id, cancellationToken)
 			: await Entities.SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
+
+	public async Task<Invoice?> GetByIdWithCustomerAsync(Guid id, CancellationToken cancellationToken = default)
+		=> await EntitiesAsNoTracking
+			.Include(e => e.Customer)
+			.SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
 }

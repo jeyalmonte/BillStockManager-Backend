@@ -1,4 +1,5 @@
 ﻿using Application.Billing.Invoices.Commands.Create;
+using Application.Billing.Invoices.Queries.GetById;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Contracts.Invoices;
 using SharedKernel.Results;
@@ -23,11 +24,12 @@ public class InvoicesController : ApiController
 	}
 
 	[HttpGet("{invoiceId:guid}")]
+	[EndpointSummary("Get a invoice by id")]
+	[ProducesResponseType(typeof(InvoiceResponse), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
 	public async Task<IActionResult> GetById(Guid invoiceId)
 	{
-		await Task.CompletedTask;
-		return Ok();
-
+		var result = await Sender.Send(new GetInvoiceByIdQuery(invoiceId));
+		return result.Match(Ok, Problem);
 	}
-
 }
