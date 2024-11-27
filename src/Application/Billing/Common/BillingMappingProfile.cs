@@ -1,4 +1,5 @@
 ﻿using Domain.Billing;
+using Domain.Customers;
 using Mapster;
 using SharedKernel.Contracts.Invoices;
 
@@ -9,5 +10,8 @@ public class BillingMappingProfile : IRegister
 	{
 		config.NewConfig<Invoice, InvoiceResponse>()
 			.Map(dest => dest.InvoiceDate, src => src.CreatedOn);
+
+		config.NewConfig<CustomerInvoiceDto, Customer>();
+		config.NewConfig<InvoiceDetail, InvoiceDetailResponse>();
 	}
 }
