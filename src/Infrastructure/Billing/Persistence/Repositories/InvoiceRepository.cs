@@ -1,7 +1,9 @@
 ﻿using Domain.Billing;
 using Domain.Billing.Repositories;
+using Infrastructure.Common.Extensions;
 using Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Specification;
 
 namespace Infrastructure.Billing.Persistence.Repositories;
 internal class InvoiceRepository(AppDbContext dbContext) : AppDbContextAccess<Invoice>(dbContext), IInvoiceRepository
@@ -18,4 +20,18 @@ internal class InvoiceRepository(AppDbContext dbContext) : AppDbContextAccess<In
 		=> await EntitiesAsNoTracking
 			.Include(e => e.Customer)
 			.SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
+
+	public async Task<ICollection<Invoice>> GetAllBySpecAsync(Specification<Invoice> specification,
+		int pageNumber = 0,
+		int pageSize = int.MaxValue,
+		CancellationToken cancellationToken = default)
+		=> await EntitiesAsNoTracking
+			.Include(x => x.Customer)
+			.Specify(specification)
+			.ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
+
+	public Task<int> GetTotalAsync(Specification<Invoice> specification, CancellationToken cancellationToken = default)
+		=> EntitiesAsNoTracking
+			.Specify(specification)
+			.CountAsync(cancellationToken);
 }

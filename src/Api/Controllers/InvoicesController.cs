@@ -1,6 +1,8 @@
 ﻿using Application.Billing.Invoices.Commands.Create;
+using Application.Billing.Invoices.Queries.GetByFilter;
 using Application.Billing.Invoices.Queries.GetById;
 using Application.Billing.Invoices.Queries.GetDetails;
+using Application.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Contracts.Invoices;
 using SharedKernel.Results;
@@ -42,5 +44,16 @@ public class InvoicesController : ApiController
 	{
 		var result = await Sender.Send(new GetInvoiceDetailsQuery(invoiceId));
 		return result.Match(Ok, Problem);
+	}
+
+	[HttpGet]
+	[EndpointSummary("Get invoices by filter")]
+	[ProducesResponseType(typeof(PaginatedResult<InvoiceResponse>), StatusCodes.Status200OK)]
+	public async Task<IActionResult> GetByFilter([FromQuery] GetInvoicesByFilterQuery query)
+	{
+		var result = await Sender.Send(query);
+		return result.Match(
+			invoicesPaginated => Ok(invoicesPaginated),
+			Problem);
 	}
 }
