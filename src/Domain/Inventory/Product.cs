@@ -12,7 +12,7 @@ public sealed class Product : BaseAuditableEntity
 	public decimal Price { get; private set; }
 	public int Stock { get; private set; }
 	public decimal? Discount { get; private set; }
-	public Product(string name, Guid categoryId, string? description, decimal price, int stock, decimal? discount)
+	private Product(string name, Guid categoryId, string? description, decimal price, int stock, decimal? discount)
 	{
 		Name = name;
 		CategoryId = categoryId;

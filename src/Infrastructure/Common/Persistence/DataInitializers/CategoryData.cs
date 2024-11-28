@@ -6,11 +6,11 @@ internal static class CategoryData
 	public static List<Category> GetData()
 		=>
 		[
-			new("Electronics","Electronic gadgets and accessories"),
-			new("Books","Books of all genres"),
-			new("Beauty","Beauty and personal care products"),
-			new("Sports","Sports and fitness products"),
-			new("Clothing","Clothing and accessories"),
-			new("Toys","Toys and games"),
+			Category.Create("Electronics","Electronic gadgets and accessories"),
+			Category.Create("Books","Books of all genres"),
+			Category.Create("Beauty","Beauty and personal care products"),
+			Category.Create("Sports","Sports and fitness products"),
+			Category.Create("Clothing","Clothing and accessories"),
+			Category.Create("Toys","Toys and games"),
 		];
 }

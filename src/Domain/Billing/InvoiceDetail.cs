@@ -13,7 +13,7 @@ public sealed class InvoiceDetail : BaseAuditableEntity
 	public decimal UnitPrice { get; private set; }
 	public decimal? Discount { get; private set; }
 	public decimal SubTotal => CalculateSubTotal();
-	public InvoiceDetail(Guid invoiceId, Guid productId, int quantity, decimal unitPrice, decimal? discount)
+	private InvoiceDetail(Guid invoiceId, Guid productId, int quantity, decimal unitPrice, decimal? discount)
 	{
 		InvoiceId = invoiceId;
 		ProductId = productId;

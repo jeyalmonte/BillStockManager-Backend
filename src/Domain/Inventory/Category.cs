@@ -6,7 +6,7 @@ public sealed class Category : BaseAuditableEntity
 {
 	public string Name { get; private set; } = null!;
 	public string? Description { get; private set; }
-	public Category(string name, string? description)
+	private Category(string name, string? description)
 	{
 		Name = name;
 		Description = description;

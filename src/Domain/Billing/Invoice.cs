@@ -16,7 +16,7 @@ public sealed class Invoice : BaseAuditableEntity
 	public IReadOnlyList<InvoiceDetail> InvoiceDetails => _invoiceDetails.AsReadOnly();
 	public IReadOnlyList<Payment> Payments => _payments.AsReadOnly();
 
-	public Invoice(Guid customerId)
+	private Invoice(Guid customerId)
 	{
 		CustomerId = customerId;
 		TotalAmount = 0;

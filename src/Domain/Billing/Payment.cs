@@ -12,7 +12,7 @@ public sealed class Payment : BaseAuditableEntity
 	public string? ReferenceNumber { get; private set; }
 	public Currency Currency { get; private set; }
 
-	public Payment(Guid invoiceId, decimal amount, PaymentMethod paymentMethod, string? referenceNumber, Currency currency)
+	private Payment(Guid invoiceId, decimal amount, PaymentMethod paymentMethod, string? referenceNumber, Currency currency)
 	{
 		InvoiceId = invoiceId;
 		Amount = amount;
