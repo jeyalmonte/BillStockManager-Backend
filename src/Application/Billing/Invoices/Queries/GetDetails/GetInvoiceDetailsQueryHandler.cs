@@ -21,7 +21,7 @@ public class GetInvoiceDetailsQueryHandler(
 			return Error.NotFound(description: "Invoice not found.");
 		}
 
-		var details = await invoiceDetailRepository.GetDetailsByInvoiceId(
+		var details = await invoiceDetailRepository.GetDetailsWithProductByInvoiceIdAsync(
 			invoiceId: request.Id,
 			cancellationToken: cancellationToken);
 

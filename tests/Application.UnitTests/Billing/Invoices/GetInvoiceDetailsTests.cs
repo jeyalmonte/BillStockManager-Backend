@@ -39,7 +39,7 @@ public class GetInvoiceDetailsTests
 		_invoiceRepositoryMock.Setup(x => x.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync(invoice);
 
-		_invoiceDetailRepositoryMock.Setup(x => x.GetDetailsByInvoiceId(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+		_invoiceDetailRepositoryMock.Setup(x => x.GetDetailsWithProductByInvoiceIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync(details);
 
 		var handler = new GetInvoiceDetailsQueryHandler(_invoiceRepositoryMock.Object, _invoiceDetailRepositoryMock.Object);
