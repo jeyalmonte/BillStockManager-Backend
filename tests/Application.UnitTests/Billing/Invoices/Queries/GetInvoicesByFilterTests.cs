@@ -5,7 +5,7 @@ using Domain.Billing.Repositories;
 using SharedKernel.Contracts.Invoices;
 using SharedKernel.Specification;
 
-namespace Application.UnitTests.Billing.Invoices;
+namespace Application.UnitTests.Billing.Invoices.Queries;
 public class GetInvoicesByFilterTests
 {
 	private readonly Mock<IInvoiceRepository> _invoiceRepository = new();

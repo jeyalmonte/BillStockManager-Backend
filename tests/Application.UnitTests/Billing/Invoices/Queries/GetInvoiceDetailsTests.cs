@@ -3,7 +3,7 @@ using Domain.Billing;
 using Domain.Billing.Repositories;
 using SharedKernel.Contracts.Invoices;
 
-namespace Application.UnitTests.Billing.Invoices;
+namespace Application.UnitTests.Billing.Invoices.Queries;
 public class GetInvoiceDetailsTests
 {
 	private readonly Mock<IInvoiceRepository> _invoiceRepositoryMock = new();

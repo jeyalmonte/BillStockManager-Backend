@@ -9,7 +9,7 @@ using Domain.Inventory.Repositories;
 using SharedKernel.Contracts.Invoices;
 using SharedKernel.Interfaces;
 
-namespace Application.UnitTests.Billing.Invoices;
+namespace Application.UnitTests.Billing.Invoices.Commands;
 public class CreateInvoiceTests
 {
 	private readonly Mock<IInvoiceService> _invoiceService = new();
@@ -65,7 +65,7 @@ public class CreateInvoiceTests
 		_customerRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync(customer);
 
-		_productRepository.Setup(x => x.GetByIdsAsync(It.IsAny<List<Guid>>(), It.IsAny<CancellationToken>()))
+		_productRepository.Setup(x => x.GetByIdsAsync(It.IsAny<List<Guid>>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync([]);
 
 		var handler = new CreateInvoiceCommandHandler(
@@ -94,7 +94,7 @@ public class CreateInvoiceTests
 		_customerRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync(customer);
 
-		_productRepository.Setup(x => x.GetByIdsAsync(It.IsAny<List<Guid>>(), It.IsAny<CancellationToken>()))
+		_productRepository.Setup(x => x.GetByIdsAsync(It.IsAny<List<Guid>>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync(new List<Product> { product });
 
 		_invoiceService.Setup(x => x.AddInvoiceDetails(It.IsAny<Invoice>(), It.IsAny<List<Product>>(), It.IsAny<List<CreateInvoiceDetailRequest>>()))
@@ -126,7 +126,7 @@ public class CreateInvoiceTests
 		_customerRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync(customer);
 
-		_productRepository.Setup(x => x.GetByIdsAsync(It.IsAny<List<Guid>>(), It.IsAny<CancellationToken>()))
+		_productRepository.Setup(x => x.GetByIdsAsync(It.IsAny<List<Guid>>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync(new List<Product> { product });
 
 		_invoiceService.Setup(x => x.AddInvoiceDetails(It.IsAny<Invoice>(), It.IsAny<List<Product>>(), It.IsAny<List<CreateInvoiceDetailRequest>>()))
