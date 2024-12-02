@@ -27,8 +27,8 @@ internal class ProductRepository(AppDbContext dbContext)
 			.Specify(specification)
 			.ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
 
-	public Task<int> GetTotalAsync(Specification<Product> specification, CancellationToken cancellationToken = default)
-		=> EntitiesAsNoTracking
+	public async Task<int> GetTotalAsync(Specification<Product> specification, CancellationToken cancellationToken = default)
+		=> await EntitiesAsNoTracking
 			.Specify(specification)
 			.CountAsync(cancellationToken);
 

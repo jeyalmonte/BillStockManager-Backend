@@ -30,8 +30,8 @@ internal class InvoiceRepository(AppDbContext dbContext) : AppDbContextAccess<In
 			.Specify(specification)
 			.ToPaginatedListAsync(pageNumber, pageSize, cancellationToken);
 
-	public Task<int> GetTotalAsync(Specification<Invoice> specification, CancellationToken cancellationToken = default)
-		=> EntitiesAsNoTracking
+	public async Task<int> GetTotalAsync(Specification<Invoice> specification, CancellationToken cancellationToken = default)
+		=> await EntitiesAsNoTracking
 			.Specify(specification)
 			.CountAsync(cancellationToken);
 }
