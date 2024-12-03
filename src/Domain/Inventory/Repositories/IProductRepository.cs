@@ -16,5 +16,6 @@ public interface IProductRepository : IRepository<Product>
 		CancellationToken cancellationToken = default);
 
 	Task<ICollection<Product>> GetByIdsAsync(List<Guid> ids,
+		bool asNoTracking = true,
 		CancellationToken cancellationToken = default);
 }

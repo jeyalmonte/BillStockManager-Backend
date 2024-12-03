@@ -32,6 +32,10 @@ internal class ProductRepository(AppDbContext dbContext)
 			.Specify(specification)
 			.CountAsync(cancellationToken);
 
-	public async Task<ICollection<Product>> GetByIdsAsync(List<Guid> ids, CancellationToken cancellationToken = default)
-		=> await EntitiesAsNoTracking.Where(x => ids.Contains(x.Id)).ToListAsync(cancellationToken);
+	public async Task<ICollection<Product>> GetByIdsAsync(List<Guid> ids,
+		bool asNoTracking = true,
+		CancellationToken cancellationToken = default)
+		=> await (asNoTracking ? EntitiesAsNoTracking : Entities)
+			.Where(x => ids.Contains(x.Id))
+			.ToListAsync(cancellationToken);
 }

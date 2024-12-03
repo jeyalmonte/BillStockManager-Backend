@@ -1,4 +1,5 @@
-﻿using Application.Billing.Invoices.Commands.Create;
+﻿using Application.Billing.Invoices.Commands.Cancel;
+using Application.Billing.Invoices.Commands.Create;
 using Application.Billing.Invoices.Queries.GetByFilter;
 using Application.Billing.Invoices.Queries.GetById;
 using Application.Billing.Invoices.Queries.GetDetails;
@@ -54,6 +55,18 @@ public class InvoicesController : ApiController
 		var result = await Sender.Send(query);
 		return result.Match(
 			invoicesPaginated => Ok(invoicesPaginated),
+			Problem);
+	}
+
+	[HttpDelete("{invoiceId:guid}")]
+	[EndpointSummary("Cancel a invoice")]
+	[ProducesResponseType(StatusCodes.Status204NoContent)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
+	public async Task<IActionResult> Cancel(Guid invoiceId)
+	{
+		var result = await Sender.Send(new CancelInvoiceCommand(invoiceId));
+		return result.Match(
+			_ => NoContent(),
 			Problem);
 	}
 }
