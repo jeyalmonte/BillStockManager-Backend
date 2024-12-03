@@ -74,7 +74,7 @@ public sealed class Invoice : BaseAuditableEntity
 	{
 		if (Status == InvoiceStatus.Paid)
 		{
-			return Error.Conflict(description: "Invoice is already paid");
+			return Error.Conflict(description: "Invoice is already paid.");
 		}
 
 		if (Status == InvoiceStatus.Cancelled)
@@ -89,9 +89,9 @@ public sealed class Invoice : BaseAuditableEntity
 
 	public Result<Success> MarkAsCancelled()
 	{
-		if (Status == InvoiceStatus.Cancelled)
+		if (Status == InvoiceStatus.Paid)
 		{
-			return Error.Conflict(description: "Invoice is already paid");
+			return Error.Conflict(description: "Invoice is already paid.");
 		}
 
 		Status = InvoiceStatus.Cancelled;
