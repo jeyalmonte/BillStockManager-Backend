@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Contracts.Invoices;
 using SharedKernel.Results;
 
-namespace Api.Controllers;
-[Route("api/billing/[controller]")]
+namespace Api.Controllers.V1;
+[Route("billing/[controller]")]
 public class InvoicesController : ApiController
 {
 	[HttpPost]

@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Contracts.Products;
 using SharedKernel.Results;
 
-namespace Api.Controllers;
-[Route("api/inventory/[controller]")]
+namespace Api.Controllers.V1;
+[Route("inventory/[controller]")]
 public class ProductsController : ApiController
 {
 	[HttpPost]

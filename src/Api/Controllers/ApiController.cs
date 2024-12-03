@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using Api.Utils;
+using Asp.Versioning;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SharedKernel.Results;
@@ -6,6 +8,7 @@ using SharedKernel.Results;
 namespace Api.Controllers;
 
 [ApiController]
+[ApiVersion(ApiVersions.V1)]
 public class ApiController : ControllerBase
 {
 	protected const string Id = "{id}";

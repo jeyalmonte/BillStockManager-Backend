@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Contracts.Categories;
 using SharedKernel.Results;
 
-namespace Api.Controllers;
-[Route("api/inventory/[controller]")]
+namespace Api.Controllers.V1;
+[Route("inventory/[controller]")]
 public class CategoriesController : ApiController
 {
 	[HttpPost]

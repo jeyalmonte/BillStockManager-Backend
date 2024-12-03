@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Contracts.Customers;
 using SharedKernel.Results;
 
-namespace Api.Controllers;
-[Route("api/[controller]")]
+namespace Api.Controllers.V1;
+[Route("[controller]")]
 public class CustomersController : ApiController
 {
 	[HttpPost]

@@ -3,8 +3,8 @@ using Application.Identity.Commands.Register;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Results;
 
-namespace Api.Controllers;
-[Route("api/[controller]")]
+namespace Api.Controllers.V1;
+[Route("[controller]")]
 public class IdentityController : ApiController
 {
 	[HttpPost(nameof(Register))]
