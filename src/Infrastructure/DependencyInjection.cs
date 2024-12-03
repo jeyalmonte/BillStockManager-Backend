@@ -28,9 +28,9 @@ public static class DependencyInjection
 	{
 		services
 			.AddPersistence(configuration)
-			.AddServices()
 			.AddIdentity(configuration)
-			.AddHealth(configuration);
+			.AddServices()
+			.AddHealth();
 
 		return services;
 	}
@@ -61,14 +61,6 @@ public static class DependencyInjection
 		return services;
 	}
 
-	private static IServiceCollection AddServices(this IServiceCollection services)
-	{
-		services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
-		services.AddScoped<IUserProvider, UserProvider>();
-
-		return services;
-	}
-
 	private static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
 	{
 		services
@@ -94,14 +86,19 @@ public static class DependencyInjection
 		return services;
 	}
 
-	private static IServiceCollection AddHealth(
-		this IServiceCollection services,
-		IConfiguration configuration)
+	private static IServiceCollection AddServices(this IServiceCollection services)
 	{
-		var healthChecks = services.AddHealthChecks();
+		services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
+		services.AddScoped<IUserProvider, UserProvider>();
 
-		healthChecks
-			.AddSqlServer(configuration.GetConnectionString("DefaultConnection")!);
+		return services;
+	}
+
+	private static IServiceCollection AddHealth(this IServiceCollection services)
+	{
+		services
+			.AddHealthChecks()
+			.AddDbContextCheck<AppDbContext>();
 
 		return services;
 	}
