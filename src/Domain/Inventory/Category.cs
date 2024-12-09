@@ -2,7 +2,7 @@
 using SharedKernel.Domain;
 
 namespace Domain.Inventory;
-public sealed class Category : BaseAuditableEntity
+public sealed class Category : AuditableEntity
 {
 	public string Name { get; private set; } = null!;
 	public string? Description { get; private set; }

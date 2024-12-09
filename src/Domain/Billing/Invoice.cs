@@ -4,7 +4,7 @@ using SharedKernel.Domain;
 using SharedKernel.Results;
 
 namespace Domain.Billing;
-public sealed class Invoice : BaseAuditableEntity
+public sealed class Invoice : AuditableEntity
 {
 	private readonly List<InvoiceDetail> _invoiceDetails = [];
 	private readonly List<Payment> _payments = [];

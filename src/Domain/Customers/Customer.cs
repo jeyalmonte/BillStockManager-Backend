@@ -4,7 +4,7 @@ using SharedKernel.Domain;
 using SharedKernel.Results;
 
 namespace Domain.Customers;
-public sealed class Customer : BaseAuditableEntity
+public sealed class Customer : AuditableEntity
 {
 	private readonly List<Invoice> _invoices = [];
 	public string FullName { get; private set; } = null!;

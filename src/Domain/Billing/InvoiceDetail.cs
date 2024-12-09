@@ -3,7 +3,7 @@ using SharedKernel.Domain;
 using SharedKernel.Results;
 
 namespace Domain.Billing;
-public sealed class InvoiceDetail : BaseAuditableEntity
+public sealed class InvoiceDetail : AuditableEntity
 {
 	public Guid InvoiceId { get; private set; }
 	public Invoice Invoice { get; private set; } = null!;

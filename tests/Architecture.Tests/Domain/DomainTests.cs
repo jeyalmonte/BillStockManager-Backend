@@ -35,7 +35,7 @@ public class DomainTests : BaseTests
     {
         var entityTypes = Types.InAssembly(DomainAssembly)
             .That()
-            .Inherit(typeof(BaseAuditableEntity))
+            .Inherit(typeof(AuditableEntity))
             .GetTypes();
 
         var failingTypes = new List<Type>();

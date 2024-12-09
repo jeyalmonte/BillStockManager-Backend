@@ -3,7 +3,7 @@ using SharedKernel.Domain;
 using SharedKernel.Results;
 
 namespace Domain.Inventory;
-public sealed class Product : BaseAuditableEntity
+public sealed class Product : AuditableEntity
 {
 	public string Name { get; private set; } = null!;
 	public Guid CategoryId { get; private set; }
