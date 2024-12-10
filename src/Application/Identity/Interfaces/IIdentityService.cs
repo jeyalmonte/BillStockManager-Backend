@@ -4,6 +4,6 @@ using SharedKernel.Results;
 namespace Application.Identity.Interfaces;
 public interface IIdentityService
 {
-	Task<Result<UserTokenResponse>> Login(UserRequest request);
 	Task<Result<Success>> Register(UserRegisterRequest request);
+	Task<Result<UserTokenResponse>> Login(UserRequest request);
 }

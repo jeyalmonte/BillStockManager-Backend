@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Infrastructure.Identity.Configuration;
+namespace Infrastructure.Security.Configuration;
 public sealed class JwtBearerTokenValidationConfiguration(IOptions<JwtSettings> jwtSettings)
 	: IConfigureNamedOptions<JwtBearerOptions>
 {
@@ -13,6 +13,8 @@ public sealed class JwtBearerTokenValidationConfiguration(IOptions<JwtSettings> 
 
 	public void Configure(JwtBearerOptions options)
 	{
+		var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
+
 		options.RequireHttpsMetadata = false;
 		options.SaveToken = true;
 		options.TokenValidationParameters = new TokenValidationParameters
@@ -23,7 +25,7 @@ public sealed class JwtBearerTokenValidationConfiguration(IOptions<JwtSettings> 
 			ValidateIssuerSigningKey = true,
 			ValidIssuer = _jwtSettings.Issuer,
 			ValidAudience = _jwtSettings.Audience,
-			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
+			IssuerSigningKey = new SymmetricSecurityKey(key),
 		};
 	}
 }

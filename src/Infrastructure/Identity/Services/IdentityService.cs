@@ -1,6 +1,7 @@
 ﻿using Application.Identity.Interfaces;
 using Application.Identity.Models;
 using Microsoft.AspNetCore.Identity;
+using SharedKernel.Interfaces.Services;
 using SharedKernel.Results;
 
 namespace Infrastructure.Identity.Services;
@@ -10,25 +11,6 @@ public class IdentityService(
 	) : IIdentityService
 {
 	private const string UserRole = "User";
-	public async Task<Result<UserTokenResponse>> Login(UserRequest request)
-	{
-		var user = await _userManager.FindByNameAsync(request.Username);
-
-		if (user is null)
-		{
-			return Error.Failure(description: "Invalid username or password.");
-		}
-
-		var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
-
-		if (!isPasswordValid)
-		{
-			return Error.Failure(description: "Invalid username or password.");
-		}
-		var (accessToken, refreshToken) = await _jwtGenerator.GenerateTokens(user);
-
-		return new UserTokenResponse(accessToken, refreshToken);
-	}
 
 	public async Task<Result<Success>> Register(UserRegisterRequest request)
 	{
@@ -65,4 +47,39 @@ public class IdentityService(
 
 		return Result.Success;
 	}
+
+	public async Task<Result<UserTokenResponse>> Login(UserRequest request)
+	{
+		var user = await _userManager.FindByNameAsync(request.Username);
+
+		if (user is null)
+		{
+			return Error.Failure(description: "Invalid username or password.");
+		}
+
+		var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
+
+		if (!isPasswordValid)
+		{
+			return Error.Failure(description: "Invalid username or password.");
+		}
+
+		var roles = await _userManager.GetRolesAsync(user);
+
+		var result = _jwtGenerator.GenerateTokens(
+			userId: user.Id.ToString(),
+			userName: user.UserName!,
+			email: user.Email!,
+			roles: roles
+			);
+
+		var (accessToken, refreshToken) = result;
+
+		// Update refresh token in database
+		user.UpdateRefreshToken(refreshToken, DateTime.UtcNow.AddDays(7));
+		await _userManager.UpdateAsync(user);
+
+		return new UserTokenResponse(accessToken, refreshToken);
+	}
+
 }

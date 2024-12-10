@@ -9,9 +9,11 @@ using Infrastructure.Common.Persistence.Interceptors;
 using Infrastructure.Common.Services;
 using Infrastructure.Customers.Persistence;
 using Infrastructure.Identity;
-using Infrastructure.Identity.Configuration;
 using Infrastructure.Identity.Services;
 using Infrastructure.Inventory.Persistence.Repositories;
+using Infrastructure.Security;
+using Infrastructure.Security.Configuration;
+using Infrastructure.Security.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -27,9 +29,11 @@ public static class DependencyInjection
 	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
 	{
 		services
+			.AddHttpContextAccessor()
 			.AddPersistence(configuration)
-			.AddIdentity(configuration)
+			.AddIdentity()
 			.AddServices()
+			.AddAuthentication(configuration)
 			.AddHealth();
 
 		return services;
@@ -61,11 +65,10 @@ public static class DependencyInjection
 		return services;
 	}
 
-	private static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
+	private static IServiceCollection AddIdentity(this IServiceCollection services)
 	{
 		services
 		   .AddTransient<IIdentityService, IdentityService>()
-		   .AddTransient<IJwtGenerator, JwtGeneratorService>()
 		   .AddIdentity<User, IdentityRole>(options =>
 		   {
 			   options.Password.RequiredLength = 8;
@@ -76,20 +79,30 @@ public static class DependencyInjection
 		   })
 		   .AddEntityFrameworkStores<AppDbContext>();
 
-		services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.Section));
-
-		services
-			.ConfigureOptions<JwtBearerTokenValidationConfiguration>()
-			.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
-			.AddJwtBearer();
-
 		return services;
 	}
 
 	private static IServiceCollection AddServices(this IServiceCollection services)
 	{
 		services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
+
+		return services;
+	}
+
+	private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
+	{
+		services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.Section));
+
+		services.AddSingleton<IJwtGenerator, JwtGenerator>();
 		services.AddScoped<IUserProvider, UserProvider>();
+
+		services
+			.ConfigureOptions<JwtBearerTokenValidationConfiguration>()
+			.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			}).AddJwtBearer();
 
 		return services;
 	}
