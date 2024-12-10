@@ -1,12 +1,14 @@
 ﻿using Api.Utils;
 using Asp.Versioning;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SharedKernel.Results;
 
 namespace Api.Controllers;
 
+[Authorize]
 [ApiController]
 [ApiVersion(ApiVersions.V1)]
 public class ApiController : ControllerBase

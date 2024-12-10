@@ -1,5 +1,6 @@
 ﻿using Application.Identity.Commands.Login;
 using Application.Identity.Commands.Register;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Results;
 
@@ -7,6 +8,7 @@ namespace Api.Controllers.V1;
 [Route("[controller]")]
 public class IdentityController : ApiController
 {
+	[AllowAnonymous]
 	[HttpPost(nameof(Register))]
 	[EndpointSummary("Register a new user")]
 	[ProducesResponseType(StatusCodes.Status200OK)]
@@ -20,6 +22,7 @@ public class IdentityController : ApiController
 			Problem);
 	}
 
+	[AllowAnonymous]
 	[HttpPost(nameof(Login))]
 	[EndpointSummary("Login a user")]
 	[ProducesResponseType(StatusCodes.Status200OK)]

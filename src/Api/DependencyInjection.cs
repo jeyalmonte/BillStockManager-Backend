@@ -16,8 +16,7 @@ public static class DependencyInjection
 			.AddRoutingAndControllers()
 			.AddApiVersioning()
 			.AddSwagger()
-			.AddExceptionHandling()
-			.AddHttpContextAccessor();
+			.AddExceptionHandling();
 
 		return services;
 	}
@@ -83,6 +82,31 @@ public static class DependencyInjection
 						Name = "Software Developer | Jeyson Almonte",
 						Email = "Jeysom28@gmail.com",
 					},
+				});
+
+				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+				{
+					Name = "Authorization",
+					Type = SecuritySchemeType.Http,
+					Scheme = "Bearer",
+					BearerFormat = "JWT",
+					In = ParameterLocation.Header,
+					Description = "JWT Authorization header. Example: 'Bearer {token}'"
+				});
+
+				c.AddSecurityRequirement(new OpenApiSecurityRequirement
+				{
+					{
+						new OpenApiSecurityScheme
+						{
+							Reference = new OpenApiReference
+							{
+								Type = ReferenceType.SecurityScheme,
+								Id = "Bearer"
+							}
+						},
+						Array.Empty<string>()
+					}
 				});
 			}
 		});
