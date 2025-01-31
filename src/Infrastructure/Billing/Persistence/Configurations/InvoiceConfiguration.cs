@@ -20,6 +20,9 @@ public class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
 		builder.Property(i => i.TotalAmount)
 			.HasPrecision(18, 2);
 
+		builder.Property(i => i.PaidAmount)
+			.HasPrecision(18, 2);
+
 		builder.Property(i => i.Status)
 			.HasConversion(
 				c => c.ToString(),

@@ -12,6 +12,8 @@ public sealed class Invoice : AuditableEntity
 	public Guid CustomerId { get; private set; }
 	public Customer Customer { get; private set; } = null!;
 	public decimal TotalAmount { get; private set; }
+	public decimal PaidAmount { get; private set; }
+	public decimal OutstandingAmount => TotalAmount - PaidAmount;
 	public InvoiceStatus Status { get; private set; }
 	public IReadOnlyList<InvoiceDetail> InvoiceDetails => _invoiceDetails.AsReadOnly();
 	public IReadOnlyList<Payment> Payments => _payments.AsReadOnly();
@@ -49,18 +51,17 @@ public sealed class Invoice : AuditableEntity
 
 	public Result<Success> ProcessPayment(Payment payment)
 	{
-		decimal outstandingBalance = CalculateOutstandingBalance();
 
-		if (payment.Amount > outstandingBalance)
+		if (payment.Amount > OutstandingAmount)
 		{
 			return Error.Conflict(description: _payments.Count != 0
 				? "Amount exceeds the outstanding balance."
 				: "Amount exceeds the total amount.");
 		}
 
-		outstandingBalance -= payment.Amount;
+		PaidAmount += payment.Amount;
 
-		if (outstandingBalance == 0)
+		if (OutstandingAmount == 0)
 		{
 			RaiseEvent(new InvoicePaidDomainEvent(Id));
 		}
@@ -99,12 +100,5 @@ public sealed class Invoice : AuditableEntity
 
 		return Result.Success;
 	}
-
-	private decimal CalculateOutstandingBalance()
-	{
-		var totalPaid = _payments.Sum(t => t.Amount);
-		return TotalAmount - totalPaid;
-	}
-
 	private Invoice() { }
 }
