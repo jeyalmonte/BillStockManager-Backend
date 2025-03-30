@@ -6,7 +6,7 @@ public static class ApiVersions
 	public const string V2 = "2.0";
 }
 
-public class ApiRoute
+public static class ApiRoute
 {
 	public const string GlobalPrefix = "api/v{version:apiVersion}/";
 }
