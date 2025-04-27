@@ -1,4 +1,4 @@
-﻿using Application.Common.Models;
+﻿using Application.Common.Results;
 using Domain.Billing;
 using SharedKernel.Contracts.Invoices;
 using SharedKernel.Enums;

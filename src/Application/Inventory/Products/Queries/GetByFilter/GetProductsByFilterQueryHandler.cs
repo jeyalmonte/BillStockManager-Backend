@@ -1,4 +1,4 @@
-﻿using Application.Common.Models;
+﻿using Application.Common.Results;
 using Application.Inventory.Products.Specifications;
 using Domain.Inventory.Repositories;
 using Mapster;

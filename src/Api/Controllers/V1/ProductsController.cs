@@ -1,4 +1,4 @@
-﻿using Application.Common.Models;
+﻿using Application.Common.Results;
 using Application.Inventory.Products.Commands.Create;
 using Application.Inventory.Products.Commands.Delete;
 using Application.Inventory.Products.Commands.Update;

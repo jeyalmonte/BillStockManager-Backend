@@ -1,4 +1,4 @@
-﻿using Application.Common.Models;
+﻿using Application.Common.Results;
 using Application.Customers.Queries.GetByFilter;
 using Domain.Customers;
 using Domain.Customers.Repositories;

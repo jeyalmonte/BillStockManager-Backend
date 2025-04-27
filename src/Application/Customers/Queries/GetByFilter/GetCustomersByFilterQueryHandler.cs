@@ -1,4 +1,4 @@
-﻿using Application.Common.Models;
+﻿using Application.Common.Results;
 using Application.Customers.Specifications;
 using Domain.Customers.Repositories;
 using Mapster;

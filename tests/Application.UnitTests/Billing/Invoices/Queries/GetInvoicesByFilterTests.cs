@@ -1,5 +1,5 @@
 ﻿using Application.Billing.Invoices.Queries.GetByFilter;
-using Application.Common.Models;
+using Application.Common.Results;
 using Domain.Billing;
 using Domain.Billing.Repositories;
 using SharedKernel.Contracts.Invoices;

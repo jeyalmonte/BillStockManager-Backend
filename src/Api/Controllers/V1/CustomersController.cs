@@ -1,4 +1,4 @@
-﻿using Application.Common.Models;
+﻿using Application.Common.Results;
 using Application.Customers.Commands.Create;
 using Application.Customers.Commands.Delete;
 using Application.Customers.Commands.Update;

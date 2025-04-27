@@ -1,4 +1,4 @@
-﻿using Application.Common.Models;
+﻿using Application.Common.Results;
 using Application.Inventory.Products.Queries.GetByFilter;
 using Domain.Inventory;
 using Domain.Inventory.Repositories;

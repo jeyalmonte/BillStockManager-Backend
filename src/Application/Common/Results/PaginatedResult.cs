@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Application.Common.Models;
+namespace Application.Common.Results;
 
 public readonly record struct PaginatedResult<T>
 {

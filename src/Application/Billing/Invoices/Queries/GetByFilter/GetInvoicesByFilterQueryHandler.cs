@@ -1,5 +1,5 @@
 ﻿using Application.Billing.Invoices.Specifications;
-using Application.Common.Models;
+using Application.Common.Results;
 using Domain.Billing.Repositories;
 using Mapster;
 using SharedKernel.Contracts.Invoices;

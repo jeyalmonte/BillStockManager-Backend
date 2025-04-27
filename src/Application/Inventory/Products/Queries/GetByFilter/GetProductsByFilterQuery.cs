@@ -1,4 +1,4 @@
-﻿using Application.Common.Models;
+﻿using Application.Common.Results;
 using SharedKernel.Contracts.Products;
 using SharedKernel.Enums;
 using SharedKernel.Interfaces.Messaging;
