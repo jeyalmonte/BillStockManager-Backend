@@ -32,13 +32,13 @@ internal class AppDbInitializer(
 
 		var categories = CategoryData.GetData();
 
-		if (!db.Set<Category>().Any())
-		{
+		if (!await db.Set<Category>().AnyAsync(CancellationToken.None))
 			db.AddRange(categories);
-		}
-		if (!db.Set<Product>().Any())
+
+		if (!await db.Set<Product>().AnyAsync(CancellationToken.None))
 			db.AddRange(ProductData.GetData(categories));
-		if (!db.Set<Customer>().Any())
+
+		if (!await db.Set<Customer>().AnyAsync(CancellationToken.None))
 			db.AddRange(CustomerData.GetData());
 
 		await db.SaveChangesAsync(CancellationToken.None);
