@@ -1,0 +1,50 @@
+services:
+  sqlserver:
+    container_name: billstockmanager-database
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: P@assword
+      ACCEPT_EULA: "Y"
+    ports:
+      - 14333:1433
+    networks:
+      - billstockmanager
+    volumes:
+      - sqlserver:/var/opt/mssql
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P P@assword -Q 'SELECT 1' || exit 1",
+        ]
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 5s
+  api:
+    container_name: billstockmanager-backend
+    image: billstockmanager-backend
+    build:
+      context: .
+    ports:
+      - ${PORT:-8080}:${PORT:-8080}
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - TZ=America/Santo_Domingo
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=SocialMediaDB;User ID=sa;Password=P@assword;TrustServerCertificate=true;Encrypt=false;
+      - JwtSettings__Secret=your_secret_key_here_for_jwt_token1234567890
+      - JwtSettings__TokenExpirationInDays=1
+      - JwtSettings__Issuer=BillStockManagerIssuer
+      - JwtSettings__Audience=BillStockManagerAudience
+    networks:
+      - billstockmanager
+    depends_on:
+      - sqlserver
+
+networks:
+  billstockmanager:
+    driver: bridge
+
+volumes:
+  sqlserver:
