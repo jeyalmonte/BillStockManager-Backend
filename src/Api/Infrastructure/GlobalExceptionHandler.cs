@@ -14,7 +14,7 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> _logger) : I
 
 		var problemDetails = new ProblemDetails
 		{
-			Type = "https://httpstatuses.com/500",
+			Type = "https://datatracker.ietf.org/doc/html/rfc9110#section-15.6.1",
 			Title = "Server Error",
 			Status = StatusCodes.Status500InternalServerError,
 			Detail = exception.Message,
