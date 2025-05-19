@@ -1,7 +1,7 @@
 ﻿using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Results;
 
-namespace Application.Identity.Commands.Register;
+namespace Application.Auth.Commands.Register;
 public record RegisterUserCommand(
 	string Name,
 	string Username,

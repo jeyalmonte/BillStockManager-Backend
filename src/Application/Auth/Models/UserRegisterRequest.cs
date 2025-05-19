@@ -1,4 +1,4 @@
-﻿namespace Application.Identity.Models;
+﻿namespace Application.Auth.Models;
 public class UserRegisterRequest(string name, string username, string email, string password)
 	: UserRequest(username, password)
 {

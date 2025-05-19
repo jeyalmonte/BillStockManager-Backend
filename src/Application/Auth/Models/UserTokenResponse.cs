@@ -1,4 +1,4 @@
-﻿namespace Application.Identity.Models;
+﻿namespace Application.Auth.Models;
 public class UserTokenResponse(string accessToken, string refreshToken)
 {
 	public string AccessToken { get; } = accessToken;

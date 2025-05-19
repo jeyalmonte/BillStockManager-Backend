@@ -1,11 +1,11 @@
-﻿using Application.Identity.Commands.Register;
-using Application.Identity.Interfaces;
-using Application.Identity.Models;
+﻿using Application.Auth.Commands.Register;
+using Application.Auth.Interfaces;
+using Application.Auth.Models;
 
-namespace Application.UnitTests.Identity.Commands;
+namespace Application.UnitTests.Auth.Commands;
 public class RegisterUserCommandTests
 {
-	private readonly Mock<IIdentityService> _identityService = new();
+	private readonly Mock<IAuthService> _identityService = new();
 	private readonly CancellationToken _cancellationToken = new();
 
 	[Fact]

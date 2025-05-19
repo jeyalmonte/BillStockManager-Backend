@@ -1,8 +1,8 @@
-﻿using Application.Identity.Models;
+﻿using Application.Auth.Models;
 using SharedKernel.Results;
 
-namespace Application.Identity.Interfaces;
-public interface IIdentityService
+namespace Application.Auth.Interfaces;
+public interface IAuthService
 {
 	Task<Result<Success>> Register(UserRegisterRequest request);
 	Task<Result<UserTokenResponse>> Login(UserRequest request);

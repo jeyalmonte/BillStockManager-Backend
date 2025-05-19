@@ -1,14 +1,13 @@
-﻿using Application.Identity.Interfaces;
-using Application.Identity.Models;
+﻿using Application.Auth.Interfaces;
+using Application.Auth.Models;
 using Microsoft.AspNetCore.Identity;
 using SharedKernel.Interfaces.Services;
 using SharedKernel.Results;
 
 namespace Infrastructure.Identity.Services;
-public class IdentityService(
+public class AuthService(
 	UserManager<User> _userManager,
-	IJwtGenerator _jwtGenerator
-	) : IIdentityService
+	IJwtGenerator _jwtGenerator) : IAuthService
 {
 	private const string UserRole = "User";
 

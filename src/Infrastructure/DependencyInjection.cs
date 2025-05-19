@@ -1,5 +1,5 @@
-﻿using Application.Common.Interfaces;
-using Application.Identity.Interfaces;
+﻿using Application.Auth.Interfaces;
+using Application.Common.Interfaces;
 using Domain.Billing.Repositories;
 using Domain.Customers.Repositories;
 using Domain.Inventory.Repositories;
@@ -68,7 +68,7 @@ public static class DependencyInjection
 	private static IServiceCollection AddIdentity(this IServiceCollection services)
 	{
 		services
-		   .AddTransient<IIdentityService, IdentityService>()
+		   .AddTransient<IAuthService, AuthService>()
 		   .AddIdentity<User, IdentityRole>(options =>
 		   {
 			   options.Password.RequiredLength = 8;

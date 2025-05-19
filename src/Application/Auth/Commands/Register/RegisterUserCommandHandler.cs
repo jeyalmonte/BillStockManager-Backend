@@ -1,10 +1,10 @@
-﻿using Application.Identity.Interfaces;
-using Application.Identity.Models;
+﻿using Application.Auth.Interfaces;
+using Application.Auth.Models;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Results;
 
-namespace Application.Identity.Commands.Register;
-public class RegisterUserCommandHandler(IIdentityService _identityService) : ICommandHandler<RegisterUserCommand, Success>
+namespace Application.Auth.Commands.Register;
+public class RegisterUserCommandHandler(IAuthService _identityService) : ICommandHandler<RegisterUserCommand, Success>
 {
 	public async Task<Result<Success>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
 	{

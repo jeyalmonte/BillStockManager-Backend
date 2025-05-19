@@ -1,12 +1,12 @@
-﻿using Application.Identity.Commands.Login;
-using Application.Identity.Commands.Register;
+﻿using Application.Auth.Commands.Login;
+using Application.Auth.Commands.Register;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SharedKernel.Results;
 
 namespace Api.Controllers.V1;
 [Route("[controller]")]
-public class IdentityController : ApiController
+public class AuthController : ApiController
 {
 	[AllowAnonymous]
 	[HttpPost(nameof(Register))]
