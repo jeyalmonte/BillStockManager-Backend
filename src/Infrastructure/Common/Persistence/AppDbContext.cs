@@ -16,10 +16,10 @@ public class AppDbContext(DbContextOptions options) : IdentityDbContext<User>(op
 		return base.SaveChangesAsync(cancellationToken);
 	}
 
-	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	protected override void OnModelCreating(ModelBuilder builder)
 	{
-		modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+		builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
-		base.OnModelCreating(modelBuilder);
+		base.OnModelCreating(builder);
 	}
 }

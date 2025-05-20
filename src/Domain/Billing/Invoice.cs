@@ -8,7 +8,7 @@ public sealed class Invoice : AuditableEntity
 {
 	private readonly List<InvoiceDetail> _invoiceDetails = [];
 	private readonly List<Payment> _payments = [];
-	public int InvoiceNumber { get; private set; }
+	public int InvoiceNumber { get; }
 	public Guid CustomerId { get; private set; }
 	public Customer Customer { get; private set; } = null!;
 	public decimal TotalAmount { get; private set; }
@@ -18,7 +18,7 @@ public sealed class Invoice : AuditableEntity
 	public IReadOnlyList<InvoiceDetail> InvoiceDetails => _invoiceDetails.AsReadOnly();
 	public IReadOnlyList<Payment> Payments => _payments.AsReadOnly();
 
-	private Invoice(Guid customerId)
+	public Invoice(Guid customerId)
 	{
 		CustomerId = customerId;
 		TotalAmount = 0;

@@ -83,7 +83,7 @@ public class ProductTests
 
 		// Assert
 		result.HasError.Should().BeTrue();
-		result.Errors.First().ErrorType.Should().Be(ErrorType.Failure);
+		result.Errors.Single().ErrorType.Should().Be(ErrorType.Failure);
 	}
 
 	[Fact]
@@ -123,7 +123,7 @@ public class ProductTests
 
 		// Assert
 		result.HasError.Should().BeTrue();
-		result.Errors.First().ErrorType.Should().Be(ErrorType.Conflict);
+		result.Errors.Single().ErrorType.Should().Be(ErrorType.Conflict);
 	}
 
 	[Fact]

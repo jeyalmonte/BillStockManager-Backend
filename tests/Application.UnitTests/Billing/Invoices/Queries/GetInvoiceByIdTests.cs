@@ -24,7 +24,7 @@ public class GetInvoiceByIdTests
 
 		// Assert
 		result.HasError.Should().BeTrue();
-		result.Errors.First().ErrorType.Should().Be(ErrorType.NotFound);
+		result.Errors.Single().ErrorType.Should().Be(ErrorType.NotFound);
 	}
 
 	[Fact]

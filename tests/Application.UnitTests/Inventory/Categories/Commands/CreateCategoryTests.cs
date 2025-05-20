@@ -29,7 +29,6 @@ public class CreateCategoryTests
 	{
 		// Arrange
 		var command = Create_CreateCategoryCommand();
-		var validator = new CreateCategoryCommandValidator();
 		var category = Category.Create("test", "test");
 
 		_categoryRepository.Setup(x => x.GetByNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
@@ -50,7 +49,6 @@ public class CreateCategoryTests
 	{
 		// Arrange
 		var command = Create_CreateCategoryCommand();
-		var validator = new CreateCategoryCommandValidator();
 
 		_categoryRepository.Setup(x => x.GetByNameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
 			.ReturnsAsync((Category?)null);

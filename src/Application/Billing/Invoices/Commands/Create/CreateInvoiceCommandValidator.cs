@@ -11,7 +11,7 @@ public class CreateInvoiceCommandValidator : AbstractValidator<CreateInvoiceComm
 		RuleForEach(c => c.InvoiceDetails).SetValidator(new CreateInvoiceDetailRequestValidator());
 	}
 
-	private class CreateInvoiceDetailRequestValidator : AbstractValidator<CreateInvoiceDetailRequest>
+	private sealed class CreateInvoiceDetailRequestValidator : AbstractValidator<CreateInvoiceDetailRequest>
 	{
 		public CreateInvoiceDetailRequestValidator()
 		{

@@ -52,7 +52,7 @@ public class CreateInvoiceTests
 
 		// Assert
 		result.HasError.Should().BeTrue();
-		result.Errors.First().ErrorType.Should().Be(ErrorType.Failure);
+		result.Errors.Single().ErrorType.Should().Be(ErrorType.Failure);
 	}
 
 	[Fact]
@@ -80,7 +80,7 @@ public class CreateInvoiceTests
 
 		// Assert
 		result.HasError.Should().BeTrue();
-		result.Errors.First().ErrorType.Should().Be(ErrorType.Failure);
+		result.Errors.Single().ErrorType.Should().Be(ErrorType.Failure);
 	}
 
 	[Fact]
@@ -112,7 +112,7 @@ public class CreateInvoiceTests
 
 		// Assert
 		result.HasError.Should().BeTrue();
-		result.Errors.First().ErrorType.Should().Be(ErrorType.Failure);
+		result.Errors.Single().ErrorType.Should().Be(ErrorType.Failure);
 	}
 
 	[Fact]
@@ -155,7 +155,7 @@ public class CreateInvoiceTests
 
 	private static CreateInvoiceCommand GetCreateInvoiceCommand(bool hasCustomerId = true)
 		=> new(
-			CustomerId: hasCustomerId ? Guid.NewGuid() : default!,
+			CustomerId: hasCustomerId ? Guid.NewGuid() : Guid.Empty,
 			InvoiceDetails:
 			[
 				new CreateInvoiceDetailRequest(

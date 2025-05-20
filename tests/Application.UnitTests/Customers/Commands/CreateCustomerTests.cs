@@ -51,7 +51,7 @@ public class CreateCustomerTests
 
 		// Assert
 		result.HasError.Should().BeTrue();
-		result.Errors.First().ErrorType.Should().Be(ErrorType.Conflict);
+		result.Errors.Single().ErrorType.Should().Be(ErrorType.Conflict);
 	}
 
 	[Fact]

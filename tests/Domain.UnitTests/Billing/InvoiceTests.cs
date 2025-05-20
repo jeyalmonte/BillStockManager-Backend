@@ -44,7 +44,7 @@ public class InvoiceTests
 
 		// Assert
 		secondAddResult.HasError.Should().BeTrue();
-		secondAddResult.Errors.First().ErrorType.Should().Be(ErrorType.Conflict);
+		secondAddResult.Errors.Single().ErrorType.Should().Be(ErrorType.Conflict);
 	}
 
 	[Fact]
@@ -92,7 +92,7 @@ public class InvoiceTests
 
 		// Assert
 		result.HasError.Should().BeTrue();
-		result.Errors.First().ErrorType.Should().Be(ErrorType.Conflict);
+		result.Errors.Single().ErrorType.Should().Be(ErrorType.Conflict);
 	}
 
 	[Fact]
@@ -129,7 +129,7 @@ public class InvoiceTests
 
 		// Assert
 		result.HasError.Should().BeTrue();
-		result.Errors.First().ErrorType.Should().Be(ErrorType.Conflict);
+		result.Errors.Single().ErrorType.Should().Be(ErrorType.Conflict);
 	}
 
 	[Fact]
@@ -206,7 +206,7 @@ public class InvoiceTests
 
 		// Assert
 		result.HasError.Should().BeTrue();
-		result.Errors.First().ErrorType.Should().Be(ErrorType.Conflict);
+		result.Errors.Single().ErrorType.Should().Be(ErrorType.Conflict);
 	}
 
 	[Fact]
@@ -260,7 +260,7 @@ public class InvoiceTests
 
 		// Assert
 		result.HasError.Should().BeTrue();
-		result.Errors.First().ErrorType.Should().Be(ErrorType.Conflict);
+		result.Errors.Single().ErrorType.Should().Be(ErrorType.Conflict);
 	}
 
 	[Fact]
