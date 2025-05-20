@@ -1,8 +1,8 @@
 ﻿using Application.Common.Results;
+using Application.Customers.Contracts;
 using Application.Customers.Queries.GetByFilter;
 using Domain.Customers;
 using Domain.Customers.Repositories;
-using SharedKernel.Contracts.Customers;
 using SharedKernel.Specification;
 
 namespace Application.UnitTests.Customers.Queries;

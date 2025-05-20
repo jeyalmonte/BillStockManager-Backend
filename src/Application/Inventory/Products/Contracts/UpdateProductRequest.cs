@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Contracts.Products;
+﻿namespace Application.Inventory.Products.Contracts;
 public record UpdateProductRequest(
 	string Name,
 	string? Description,

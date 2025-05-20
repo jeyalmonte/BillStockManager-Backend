@@ -1,6 +1,6 @@
-﻿using Application.Common.Results;
+﻿using Application.Billing.Invoices.Contracts;
+using Application.Common.Results;
 using Domain.Billing;
-using SharedKernel.Contracts.Invoices;
 using SharedKernel.Enums;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Pagination;

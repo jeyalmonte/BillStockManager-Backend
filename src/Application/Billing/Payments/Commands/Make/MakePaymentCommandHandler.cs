@@ -1,7 +1,7 @@
-﻿using Domain.Billing;
+﻿using Application.Billing.Payments.Contracts;
+using Domain.Billing;
 using Domain.Billing.Repositories;
 using Mapster;
-using SharedKernel.Contracts.Payments;
 using SharedKernel.Interfaces;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Results;

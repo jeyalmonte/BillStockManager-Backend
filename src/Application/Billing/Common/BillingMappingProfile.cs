@@ -1,7 +1,7 @@
-﻿using Domain.Billing;
+﻿using Application.Billing.Invoices.Contracts;
+using Domain.Billing;
 using Domain.Customers;
 using Mapster;
-using SharedKernel.Contracts.Invoices;
 
 namespace Application.Billing.Common;
 public class BillingMappingProfile : IRegister

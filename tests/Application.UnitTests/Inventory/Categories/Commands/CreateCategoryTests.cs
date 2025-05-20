@@ -1,7 +1,7 @@
 ﻿using Application.Inventory.Categories.Commands.Create;
+using Application.Inventory.Categories.Contracts;
 using Domain.Inventory;
 using Domain.Inventory.Repositories;
-using SharedKernel.Contracts.Categories;
 using SharedKernel.Interfaces;
 
 namespace Application.UnitTests.Inventory.Categories.Commands;

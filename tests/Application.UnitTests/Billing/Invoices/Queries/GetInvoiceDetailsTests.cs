@@ -1,7 +1,7 @@
-﻿using Application.Billing.Invoices.Queries.GetDetails;
+﻿using Application.Billing.Invoices.Contracts;
+using Application.Billing.Invoices.Queries.GetDetails;
 using Domain.Billing;
 using Domain.Billing.Repositories;
-using SharedKernel.Contracts.Invoices;
 
 namespace Application.UnitTests.Billing.Invoices.Queries;
 public class GetInvoiceDetailsTests

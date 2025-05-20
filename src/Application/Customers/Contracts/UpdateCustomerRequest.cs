@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Contracts.Customers;
+﻿namespace Application.Customers.Contracts;
 public record UpdateCustomerRequest(
 	string FullName,
 	string? Nickname,

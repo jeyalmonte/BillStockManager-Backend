@@ -1,4 +1,4 @@
-﻿using SharedKernel.Contracts.Invoices;
+﻿using Application.Billing.Invoices.Contracts;
 using SharedKernel.Interfaces.Messaging;
 
 namespace Application.Billing.Invoices.Queries.GetById;

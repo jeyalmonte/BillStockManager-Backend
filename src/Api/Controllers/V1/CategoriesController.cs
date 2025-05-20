@@ -1,7 +1,7 @@
 ﻿using Application.Inventory.Categories.Commands.Create;
+using Application.Inventory.Categories.Contracts;
 using Application.Inventory.Categories.Queries.GetAll;
 using Microsoft.AspNetCore.Mvc;
-using SharedKernel.Contracts.Categories;
 using SharedKernel.Results;
 
 namespace Api.Controllers.V1;

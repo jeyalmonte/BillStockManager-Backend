@@ -1,6 +1,6 @@
-﻿using Domain.Customers.Repositories;
+﻿using Application.Customers.Contracts;
+using Domain.Customers.Repositories;
 using Mapster;
-using SharedKernel.Contracts.Customers;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Results;
 

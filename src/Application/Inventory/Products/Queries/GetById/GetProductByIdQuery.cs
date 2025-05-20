@@ -1,4 +1,4 @@
-﻿using SharedKernel.Contracts.Products;
+﻿using Application.Inventory.Products.Contracts;
 using SharedKernel.Interfaces.Messaging;
 
 namespace Application.Inventory.Products.Queries.GetById;

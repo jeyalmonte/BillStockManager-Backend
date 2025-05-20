@@ -1,8 +1,8 @@
 ﻿using Application.Common.Results;
+using Application.Inventory.Products.Contracts;
 using Application.Inventory.Products.Specifications;
 using Domain.Inventory.Repositories;
 using Mapster;
-using SharedKernel.Contracts.Products;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Results;
 

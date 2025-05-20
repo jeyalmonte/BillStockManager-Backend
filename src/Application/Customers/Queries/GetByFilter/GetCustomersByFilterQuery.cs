@@ -1,6 +1,6 @@
 ﻿using Application.Common.Results;
+using Application.Customers.Contracts;
 using Domain.Customers;
-using SharedKernel.Contracts.Customers;
 using SharedKernel.Enums;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Pagination;

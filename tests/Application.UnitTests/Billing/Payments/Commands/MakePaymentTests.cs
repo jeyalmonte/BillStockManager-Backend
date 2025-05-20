@@ -1,8 +1,8 @@
 ﻿using Application.Billing.Payments.Commands.Make;
+using Application.Billing.Payments.Contracts;
 using Domain.Billing;
 using Domain.Billing.Repositories;
 using Domain.Inventory;
-using SharedKernel.Contracts.Payments;
 using SharedKernel.Interfaces;
 
 namespace Application.UnitTests.Billing.Payments.Commands;

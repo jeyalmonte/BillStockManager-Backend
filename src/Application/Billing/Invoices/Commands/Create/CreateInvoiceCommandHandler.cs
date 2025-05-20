@@ -1,10 +1,10 @@
-﻿using Application.Billing.Invoices.Services.Interfaces;
+﻿using Application.Billing.Invoices.Contracts;
+using Application.Billing.Invoices.Services.Interfaces;
 using Domain.Billing;
 using Domain.Billing.Repositories;
 using Domain.Customers.Repositories;
 using Domain.Inventory.Repositories;
 using Mapster;
-using SharedKernel.Contracts.Invoices;
 using SharedKernel.Interfaces;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Results;

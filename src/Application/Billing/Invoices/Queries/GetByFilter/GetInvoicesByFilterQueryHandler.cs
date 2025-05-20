@@ -1,8 +1,8 @@
-﻿using Application.Billing.Invoices.Specifications;
+﻿using Application.Billing.Invoices.Contracts;
+using Application.Billing.Invoices.Specifications;
 using Application.Common.Results;
 using Domain.Billing.Repositories;
 using Mapster;
-using SharedKernel.Contracts.Invoices;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Results;
 

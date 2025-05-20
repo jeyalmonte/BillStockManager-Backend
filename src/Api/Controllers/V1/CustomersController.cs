@@ -2,11 +2,11 @@
 using Application.Customers.Commands.Create;
 using Application.Customers.Commands.Delete;
 using Application.Customers.Commands.Update;
+using Application.Customers.Contracts;
 using Application.Customers.Queries.GetByFilter;
 using Application.Customers.Queries.GetById;
 using Domain.Customers;
 using Microsoft.AspNetCore.Mvc;
-using SharedKernel.Contracts.Customers;
 using SharedKernel.Results;
 
 namespace Api.Controllers.V1;

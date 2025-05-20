@@ -1,7 +1,7 @@
 ﻿using Application.Inventory.Products.Commands.Create;
+using Application.Inventory.Products.Contracts;
 using Domain.Inventory;
 using Domain.Inventory.Repositories;
-using SharedKernel.Contracts.Products;
 using SharedKernel.Interfaces;
 
 namespace Application.UnitTests.Inventory.Products.Commands;

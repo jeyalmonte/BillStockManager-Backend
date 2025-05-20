@@ -1,8 +1,8 @@
 ﻿using Application.Common.Results;
+using Application.Customers.Contracts;
 using Application.Customers.Specifications;
 using Domain.Customers.Repositories;
 using Mapster;
-using SharedKernel.Contracts.Customers;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Results;
 

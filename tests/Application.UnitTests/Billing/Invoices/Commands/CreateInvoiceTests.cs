@@ -1,4 +1,5 @@
 ﻿using Application.Billing.Invoices.Commands.Create;
+using Application.Billing.Invoices.Contracts;
 using Application.Billing.Invoices.Services.Interfaces;
 using Domain.Billing;
 using Domain.Billing.Repositories;
@@ -6,7 +7,6 @@ using Domain.Customers;
 using Domain.Customers.Repositories;
 using Domain.Inventory;
 using Domain.Inventory.Repositories;
-using SharedKernel.Contracts.Invoices;
 using SharedKernel.Interfaces;
 
 namespace Application.UnitTests.Billing.Invoices.Commands;

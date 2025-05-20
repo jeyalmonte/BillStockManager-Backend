@@ -1,7 +1,7 @@
-﻿using Application.Customers.Queries.GetById;
+﻿using Application.Customers.Contracts;
+using Application.Customers.Queries.GetById;
 using Domain.Customers;
 using Domain.Customers.Repositories;
-using SharedKernel.Contracts.Customers;
 
 namespace Application.UnitTests.Customers.Queries;
 public class GetCustomerByIdTests

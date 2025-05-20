@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using SharedKernel.Contracts.Invoices;
+﻿using Application.Billing.Invoices.Contracts;
+using FluentValidation;
 
 namespace Application.Billing.Invoices.Commands.Create;
 public class CreateInvoiceCommandValidator : AbstractValidator<CreateInvoiceCommand>

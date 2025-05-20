@@ -1,5 +1,5 @@
-﻿using Domain.Billing;
-using SharedKernel.Contracts.Payments;
+﻿using Application.Billing.Payments.Contracts;
+using Domain.Billing;
 using SharedKernel.Interfaces.Messaging;
 
 namespace Application.Billing.Payments.Commands.Make;

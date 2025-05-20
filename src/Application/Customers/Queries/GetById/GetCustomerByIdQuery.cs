@@ -1,4 +1,4 @@
-﻿using SharedKernel.Contracts.Customers;
+﻿using Application.Customers.Contracts;
 using SharedKernel.Interfaces.Messaging;
 
 namespace Application.Customers.Queries.GetById;

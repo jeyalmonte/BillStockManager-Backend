@@ -1,4 +1,4 @@
-﻿namespace SharedKernel.Contracts.Invoices;
+﻿namespace Application.Billing.Invoices.Contracts;
 
 public record InvoiceResponse
 {
@@ -11,6 +11,12 @@ public record InvoiceResponse
 	public DateTime InvoiceDate { get; init; }
 	public string Status { get; init; } = null!;
 }
+
+public record CustomerInvoiceDto(
+	Guid Id,
+	string FullName,
+	string? Email
+	);
 
 
 

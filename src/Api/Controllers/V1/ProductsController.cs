@@ -3,10 +3,10 @@ using Application.Inventory.Products.Commands.Create;
 using Application.Inventory.Products.Commands.Delete;
 using Application.Inventory.Products.Commands.Update;
 using Application.Inventory.Products.Commands.UpdateStock;
+using Application.Inventory.Products.Contracts;
 using Application.Inventory.Products.Queries.GetByFilter;
 using Application.Inventory.Products.Queries.GetById;
 using Microsoft.AspNetCore.Mvc;
-using SharedKernel.Contracts.Products;
 using SharedKernel.Results;
 
 namespace Api.Controllers.V1;

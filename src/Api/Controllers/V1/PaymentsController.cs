@@ -1,7 +1,7 @@
 ﻿using Application.Billing.Payments.Commands.Make;
+using Application.Billing.Payments.Contracts;
 using Domain.Billing;
 using Microsoft.AspNetCore.Mvc;
-using SharedKernel.Contracts.Payments;
 using SharedKernel.Results;
 
 namespace Api.Controllers.V1;

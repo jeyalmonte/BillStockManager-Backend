@@ -1,7 +1,7 @@
-﻿using Application.Inventory.Categories.Queries.GetAll;
+﻿using Application.Inventory.Categories.Contracts;
+using Application.Inventory.Categories.Queries.GetAll;
 using Domain.Inventory;
 using Domain.Inventory.Repositories;
-using SharedKernel.Contracts.Categories;
 
 namespace Application.UnitTests.Inventory.Categories.Queries;
 public class GetAllCategoriesTests

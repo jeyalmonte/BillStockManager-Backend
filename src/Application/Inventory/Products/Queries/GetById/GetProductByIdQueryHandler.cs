@@ -1,6 +1,6 @@
-﻿using Domain.Inventory.Repositories;
+﻿using Application.Inventory.Products.Contracts;
+using Domain.Inventory.Repositories;
 using Mapster;
-using SharedKernel.Contracts.Products;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Results;
 

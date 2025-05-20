@@ -1,7 +1,7 @@
 ﻿using Application.Customers.Commands.Create;
+using Application.Customers.Contracts;
 using Domain.Customers;
 using Domain.Customers.Repositories;
-using SharedKernel.Contracts.Customers;
 using SharedKernel.Interfaces;
 
 namespace Application.UnitTests.Customers.Commands;

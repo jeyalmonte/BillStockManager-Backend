@@ -1,6 +1,6 @@
-﻿using Domain.Billing;
+﻿using Application.Billing.Invoices.Contracts;
+using Domain.Billing;
 using Domain.Inventory;
-using SharedKernel.Contracts.Invoices;
 using SharedKernel.Results;
 
 namespace Application.Billing.Invoices.Services.Interfaces;

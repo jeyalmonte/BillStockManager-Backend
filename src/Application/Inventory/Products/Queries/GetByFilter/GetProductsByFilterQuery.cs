@@ -1,5 +1,5 @@
 ﻿using Application.Common.Results;
-using SharedKernel.Contracts.Products;
+using Application.Inventory.Products.Contracts;
 using SharedKernel.Enums;
 using SharedKernel.Interfaces.Messaging;
 using SharedKernel.Pagination;

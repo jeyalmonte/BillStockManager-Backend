@@ -1,8 +1,8 @@
 ﻿using Application.Common.Results;
+using Application.Inventory.Products.Contracts;
 using Application.Inventory.Products.Queries.GetByFilter;
 using Domain.Inventory;
 using Domain.Inventory.Repositories;
-using SharedKernel.Contracts.Products;
 using SharedKernel.Specification;
 
 namespace Application.UnitTests.Inventory.Products.Queries;

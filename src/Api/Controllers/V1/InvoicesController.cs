@@ -1,11 +1,11 @@
 ﻿using Application.Billing.Invoices.Commands.Cancel;
 using Application.Billing.Invoices.Commands.Create;
+using Application.Billing.Invoices.Contracts;
 using Application.Billing.Invoices.Queries.GetByFilter;
 using Application.Billing.Invoices.Queries.GetById;
 using Application.Billing.Invoices.Queries.GetDetails;
 using Application.Common.Results;
 using Microsoft.AspNetCore.Mvc;
-using SharedKernel.Contracts.Invoices;
 using SharedKernel.Results;
 
 namespace Api.Controllers.V1;

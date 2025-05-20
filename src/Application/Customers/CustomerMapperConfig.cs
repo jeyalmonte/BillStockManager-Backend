@@ -1,6 +1,6 @@
-﻿using Domain.Customers;
+﻿using Application.Customers.Contracts;
+using Domain.Customers;
 using Mapster;
-using SharedKernel.Contracts.Customers;
 
 namespace Application.Customers;
 public class CustomerMapperConfig

@@ -1,7 +1,7 @@
-﻿using Application.Inventory.Products.Queries.GetById;
+﻿using Application.Inventory.Products.Contracts;
+using Application.Inventory.Products.Queries.GetById;
 using Domain.Inventory;
 using Domain.Inventory.Repositories;
-using SharedKernel.Contracts.Products;
 
 namespace Application.UnitTests.Inventory.Products.Queries;
 public class GetProductByIdTests

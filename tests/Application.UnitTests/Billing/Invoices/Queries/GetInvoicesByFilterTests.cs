@@ -1,8 +1,8 @@
-﻿using Application.Billing.Invoices.Queries.GetByFilter;
+﻿using Application.Billing.Invoices.Contracts;
+using Application.Billing.Invoices.Queries.GetByFilter;
 using Application.Common.Results;
 using Domain.Billing;
 using Domain.Billing.Repositories;
-using SharedKernel.Contracts.Invoices;
 using SharedKernel.Specification;
 
 namespace Application.UnitTests.Billing.Invoices.Queries;

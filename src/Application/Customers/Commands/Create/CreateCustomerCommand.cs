@@ -1,5 +1,5 @@
-﻿using Domain.Customers;
-using SharedKernel.Contracts.Customers;
+﻿using Application.Customers.Contracts;
+using Domain.Customers;
 using SharedKernel.Interfaces.Messaging;
 
 namespace Application.Customers.Commands.Create;
