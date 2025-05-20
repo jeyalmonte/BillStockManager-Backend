@@ -16,7 +16,7 @@ public static class ApplicationBuilderExtensions
 		return app;
 	}
 
-	public static IApplicationBuilder UseSecurityHeaders(this IApplicationBuilder app, IWebHostEnvironment env)
+	public static IApplicationBuilder UseSecurityHeaders(this IApplicationBuilder app)
 	{
 		app.Use((ctx, next) =>
 		{
@@ -24,19 +24,6 @@ public static class ApplicationBuilderExtensions
 			ctx.Response.Headers.Append("X-Content-Type-Options", "nosniff"); // Prevents the browser from guessing the MIME type of files, ensuring they are interpreted correctly.
 			ctx.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin"); // Controls the referrer information sent with requests to protect user privacy.
 			ctx.Response.Headers.Append("Permissions-Policy", "geolocation=(self), microphone=(self), camera=(self)"); // Restricts access to sensitive features like geolocation, microphone, and camera to the same origin.
-
-			if (env.IsDevelopment())
-			{
-				// Loosened CSP for Swagger UI in development (allows inline scripts and styles)
-				ctx.Response.Headers.Append("Content-Security-Policy",
-					"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:");
-			}
-			else
-			{
-				// Stricter CSP for production (restricts external scripts and frames)
-				ctx.Response.Headers.Append("Content-Security-Policy",
-					"default-src 'self'; script-src 'self'; object-src 'none'; frame-ancestors 'none';");
-			}
 
 			return next();
 		});

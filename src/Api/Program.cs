@@ -16,7 +16,7 @@ app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseSwagger(builder.Environment);
 app.UseRouting();
-app.UseSecurityHeaders(builder.Environment);
+app.UseSecurityHeaders();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapHealthChecks();
