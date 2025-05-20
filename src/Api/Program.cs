@@ -16,6 +16,7 @@ app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseSwagger(builder.Environment);
 app.UseRouting();
+app.UseCors("AllowAll");
 app.UseSecurityHeaders();
 app.UseAuthentication();
 app.UseAuthorization();

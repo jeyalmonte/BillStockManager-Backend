@@ -16,7 +16,8 @@ public static class DependencyInjection
 			.AddRoutingAndControllers()
 			.AddApiVersioning()
 			.AddSwagger()
-			.AddExceptionHandling();
+			.AddExceptionHandling()
+			.AddCors();
 
 		return services;
 	}
@@ -118,6 +119,19 @@ public static class DependencyInjection
 	{
 		services.AddExceptionHandler<GlobalExceptionHandler>();
 		services.AddProblemDetails();
+		return services;
+	}
+
+	private static IServiceCollection AddCors(this IServiceCollection services)
+	{
+		services.AddCors(opts =>
+			opts.AddPolicy("AllowAll", policy =>
+			{
+				policy.AllowAnyOrigin()
+					  .AllowAnyHeader()
+					  .AllowAnyMethod();
+			}));
+
 		return services;
 	}
 }
