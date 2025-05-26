@@ -22,7 +22,14 @@ internal class AppDbInitializer(
 
 	public async Task InitializeAsync()
 	{
-		await db.Database.MigrateAsync();
+		if (db.Database.IsRelational())
+		{
+			await db.Database.MigrateAsync();
+		}
+		else
+		{
+			await db.Database.EnsureCreatedAsync();
+		}
 	}
 
 	public async Task SeedAsync()

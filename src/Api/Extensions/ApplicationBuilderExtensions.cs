@@ -42,10 +42,9 @@ public static class ApplicationBuilderExtensions
 
 		Task.Run(async () =>
 		{
-			await initializer.InitializeAsync();
-
-			if (env.IsDevelopment())
+			if (!env.IsProduction())
 			{
+				await initializer.InitializeAsync();
 				await initializer.SeedAsync();
 			}
 		}).Wait();
