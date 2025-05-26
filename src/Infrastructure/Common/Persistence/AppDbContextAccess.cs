@@ -2,6 +2,13 @@
 using SharedKernel.Domain;
 
 namespace Infrastructure.Common.Persistence;
+/// <summary>
+/// Abstract base class for accessing and managing a specific entity type in the database.
+/// </summary>
+/// <remarks>
+/// Intended for inheritance; provides access to tracked and untracked DbSet<TEntity> queries.
+/// </remarks>
+/// <typeparam name="TEntity">Entity type, must inherit from <see cref="Entity"/>.</typeparam>
 
 public abstract class AppDbContextAccess<TEntity>(AppDbContext dbContext) where TEntity : Entity
 {
