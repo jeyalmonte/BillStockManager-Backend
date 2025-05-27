@@ -1,6 +1,7 @@
 ﻿using Application.Auth.Interfaces;
 using Application.Auth.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SharedKernel.Interfaces.Services;
 using SharedKernel.Results;
 
@@ -81,4 +82,29 @@ public class AuthService(
 		return new UserTokenResponse(accessToken, refreshToken);
 	}
 
+	public async Task<Result<UserTokenResponse>> RefreshToken(string token)
+	{
+		var user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == token);
+
+		if (user is null || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+		{
+			return Error.Failure(description: "Invalid or expired refresh token.");
+		}
+
+		var roles = await _userManager.GetRolesAsync(user);
+
+		var result = _jwtGenerator.GenerateTokens(
+			userId: user.Id.ToString(),
+			userName: user.UserName!,
+			email: user.Email!,
+			roles: roles
+			);
+
+		var (accessToken, refreshToken) = result;
+
+		user.UpdateRefreshToken(refreshToken, DateTime.UtcNow.AddDays(7));
+		await _userManager.UpdateAsync(user);
+
+		return new UserTokenResponse(accessToken, refreshToken);
+	}
 }

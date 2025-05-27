@@ -1,4 +1,5 @@
 ﻿using Application.Auth.Commands.Login;
+using Application.Auth.Commands.RefreshToken;
 using Application.Auth.Commands.Register;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,18 @@ public class AuthController : ApiController
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
+	{
+		var result = await Sender.Send(command);
+
+		return result.Match(Ok, Problem);
+	}
+
+	[AllowAnonymous]
+	[HttpPost("refresh-token")]
+	[EndpointSummary("Refresh user token")]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenCommand command)
 	{
 		var result = await Sender.Send(command);
 
