@@ -12,9 +12,12 @@ public class CreateCustomerCommandHandler(
 	IUnitOfWork unitOfWork)
 	: ICommandHandler<CreateCustomerCommand, CustomerResponse>
 {
+	private readonly ICustomerRepository _customerRepository = customerRepository;
+	private readonly IUnitOfWork _unitOfWork = unitOfWork;
+
 	public async Task<Result<CustomerResponse>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
 	{
-		var existingDocument = await customerRepository.GetByDocumentAsync(request.Document, cancellationToken);
+		var existingDocument = await _customerRepository.GetByDocumentAsync(request.Document, cancellationToken);
 
 		if (existingDocument is not null)
 		{
@@ -32,10 +35,9 @@ public class CreateCustomerCommandHandler(
 		   .WithAddress(request.Address)
 		   .Build();
 
-		customerRepository.Add(newCustomer);
-		await unitOfWork.CommitAsync(cancellationToken);
+		_customerRepository.Add(newCustomer);
+		await _unitOfWork.CommitAsync(cancellationToken);
 
 		return newCustomer.Adapt<CustomerResponse>();
-
 	}
 }

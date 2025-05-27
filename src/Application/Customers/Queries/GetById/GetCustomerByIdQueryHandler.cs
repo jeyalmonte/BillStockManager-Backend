@@ -8,9 +8,11 @@ namespace Application.Customers.Queries.GetById;
 public class GetCustomerByIdQueryHandler(ICustomerRepository customerRepository)
 	: IQueryHandler<GetCustomerByIdQuery, CustomerResponse>
 {
+	private readonly ICustomerRepository _customerRepository = customerRepository;
+
 	public async Task<Result<CustomerResponse>> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
 	{
-		var customer = await customerRepository.GetByIdAsync(
+		var customer = await _customerRepository.GetByIdAsync(
 			id: request.Id,
 			cancellationToken: cancellationToken);
 

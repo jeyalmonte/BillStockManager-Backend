@@ -9,9 +9,12 @@ public class UpdateCustomerCommandHandler(
 	IUnitOfWork unitOfWork)
 	: ICommandHandler<UpdateCustomerCommand, Success>
 {
+	private readonly ICustomerRepository _customerRepository = customerRepository;
+	private readonly IUnitOfWork _unitOfWork = unitOfWork;
+
 	public async Task<Result<Success>> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
 	{
-		var customer = await customerRepository.GetByIdAsync(
+		var customer = await _customerRepository.GetByIdAsync(
 			id: request.Id,
 			asNoTracking: false,
 			cancellationToken: cancellationToken);
@@ -29,7 +32,7 @@ public class UpdateCustomerCommandHandler(
 			address: request.Address
 			);
 
-		await unitOfWork.CommitAsync(cancellationToken);
+		await _unitOfWork.CommitAsync(cancellationToken);
 
 		return Result.Success;
 	}
