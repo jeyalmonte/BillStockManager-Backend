@@ -9,9 +9,11 @@ public class UpdateProductStockCommandHandler(
 	IUnitOfWork unitOfWork)
 	: ICommandHandler<UpdateProductStockCommand, Success>
 {
+	private readonly IProductRepository _productRepository = productRepository;
+	private readonly IUnitOfWork _unitOfWork = unitOfWork;
 	public async Task<Result<Success>> Handle(UpdateProductStockCommand request, CancellationToken cancellationToken)
 	{
-		var product = await productRepository.GetByIdAsync(
+		var product = await _productRepository.GetByIdAsync(
 			id: request.ProductId,
 			asNoTracking: false,
 			cancellationToken: cancellationToken);
@@ -28,7 +30,7 @@ public class UpdateProductStockCommandHandler(
 			return result.Errors;
 		}
 
-		await unitOfWork.CommitAsync(cancellationToken);
+		await _unitOfWork.CommitAsync(cancellationToken);
 
 		return Result.Success;
 	}

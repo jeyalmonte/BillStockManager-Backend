@@ -8,9 +8,10 @@ namespace Application.Inventory.Products.Queries.GetById;
 public class GetProductByIdQueryHandler(IProductRepository productRepository)
 	: IQueryHandler<GetProductByIdQuery, ProductResponse>
 {
+	private readonly IProductRepository _productRepository = productRepository;
 	public async Task<Result<ProductResponse>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
 	{
-		var product = await productRepository.GetByIdAsync(
+		var product = await _productRepository.GetByIdAsync(
 			id: request.Id,
 			cancellationToken: cancellationToken);
 

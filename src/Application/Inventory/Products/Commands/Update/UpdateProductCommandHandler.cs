@@ -10,9 +10,12 @@ public class UpdateProductCommandHandler(
 	IUnitOfWork unitOfWork
 	) : ICommandHandler<UpdateProductCommand, Success>
 {
+	private readonly IProductRepository _productRepository = productRepository;
+	private readonly ICategoryRepository _categoryRepository = categoryRepository;
+	private readonly IUnitOfWork _unitOfWork = unitOfWork;
 	public async Task<Result<Success>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
 	{
-		var product = await productRepository.GetByIdAsync(
+		var product = await _productRepository.GetByIdAsync(
 			id: request.Id,
 			asNoTracking: false,
 			cancellationToken: cancellationToken);
@@ -22,7 +25,7 @@ public class UpdateProductCommandHandler(
 			return Error.NotFound(description: "Product not found.");
 		}
 
-		var existingCategory = await categoryRepository.GetByIdAsync(
+		var existingCategory = await _categoryRepository.GetByIdAsync(
 			id: request.CategoryId,
 			cancellationToken: cancellationToken);
 
@@ -38,7 +41,7 @@ public class UpdateProductCommandHandler(
 			price: request.Price,
 			discount: request.Discount);
 
-		await unitOfWork.CommitAsync(cancellationToken);
+		await _unitOfWork.CommitAsync(cancellationToken);
 
 		return Result.Success;
 	}

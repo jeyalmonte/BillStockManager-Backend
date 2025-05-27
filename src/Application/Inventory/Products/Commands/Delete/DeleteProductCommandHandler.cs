@@ -9,9 +9,11 @@ public class DeleteProductCommandHandler(
 	IUnitOfWork unitOfWork)
 	: ICommandHandler<DeleteProductCommand, Success>
 {
+	private readonly IProductRepository _productRepository = productRepository;
+	private readonly IUnitOfWork _unitOfWork = unitOfWork;
 	public async Task<Result<Success>> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
 	{
-		var product = await productRepository.GetByIdAsync(
+		var product = await _productRepository.GetByIdAsync(
 			id: request.Id,
 			asNoTracking: false,
 			cancellationToken: cancellationToken);
@@ -22,7 +24,7 @@ public class DeleteProductCommandHandler(
 		}
 
 		product.Remove();
-		await unitOfWork.CommitAsync(cancellationToken);
+		await _unitOfWork.CommitAsync(cancellationToken);
 
 		return Result.Success;
 	}

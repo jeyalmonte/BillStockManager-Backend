@@ -8,30 +8,32 @@ using SharedKernel.Results;
 
 namespace Application.Inventory.Categories.Commands.Create;
 public class CreateCategoryCommandHandler(
-    ICategoryRepository categoryRepository,
-    IUnitOfWork unitOfWork)
-    : ICommandHandler<CreateCategoryCommand, CategoryResponse>
+	ICategoryRepository categoryRepository,
+	IUnitOfWork unitOfWork)
+	: ICommandHandler<CreateCategoryCommand, CategoryResponse>
 {
-    public async Task<Result<CategoryResponse>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
-    {
-        var existingCategory = await categoryRepository.GetByNameAsync(
-            name: request.Name,
-            cancellationToken: cancellationToken
-            );
+	private readonly ICategoryRepository _categoryRepository = categoryRepository;
+	private readonly IUnitOfWork _unitOfWork = unitOfWork;
+	public async Task<Result<CategoryResponse>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
+	{
+		var existingCategory = await _categoryRepository.GetByNameAsync(
+			name: request.Name,
+			cancellationToken: cancellationToken
+			);
 
-        if (existingCategory is not null)
-        {
-            return Error.Conflict(description: "Category already exists.");
-        }
+		if (existingCategory is not null)
+		{
+			return Error.Conflict(description: "Category already exists.");
+		}
 
-        var newCategory = Category.Create(
-            name: request.Name,
-            description: request.Description
-            );
+		var newCategory = Category.Create(
+			name: request.Name,
+			description: request.Description
+			);
 
-        categoryRepository.Add(newCategory);
-        await unitOfWork.CommitAsync(cancellationToken);
+		_categoryRepository.Add(newCategory);
+		await _unitOfWork.CommitAsync(cancellationToken);
 
-        return newCategory.Adapt<CategoryResponse>();
-    }
+		return newCategory.Adapt<CategoryResponse>();
+	}
 }
