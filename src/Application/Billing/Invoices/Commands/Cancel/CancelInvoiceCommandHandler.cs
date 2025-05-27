@@ -9,9 +9,11 @@ public class CancelInvoiceCommandHandler(
 	IUnitOfWork unitOfWork
 	) : ICommandHandler<CancelInvoiceCommand, Success>
 {
+	private readonly IInvoiceRepository _invoiceRepository = invoiceRepository;
+	private readonly IUnitOfWork _unitOfWork = unitOfWork;
 	public async Task<Result<Success>> Handle(CancelInvoiceCommand request, CancellationToken cancellationToken)
 	{
-		var invoice = await invoiceRepository.GetByIdAsync(
+		var invoice = await _invoiceRepository.GetByIdAsync(
 			id: request.Id,
 			asNoTracking: false,
 			cancellationToken: cancellationToken);
@@ -26,7 +28,7 @@ public class CancelInvoiceCommandHandler(
 		{
 			return result.Errors;
 		}
-		await unitOfWork.CommitAsync(cancellationToken);
+		await _unitOfWork.CommitAsync(cancellationToken);
 
 		return Result.Success;
 	}

@@ -10,15 +10,16 @@ namespace Application.Billing.Invoices.Queries.GetByFilter;
 public class GetInvoicesByFilterQueryHandler(IInvoiceRepository invoiceRepository)
 	: IQueryHandler<GetInvoicesByFilterQuery, PaginatedResult<InvoiceResponse>>
 {
+	private readonly IInvoiceRepository _invoiceRepository = invoiceRepository;
 	public async Task<Result<PaginatedResult<InvoiceResponse>>> Handle(GetInvoicesByFilterQuery request, CancellationToken cancellationToken)
 	{
 		var specification = new GetInvoicesByFilterSpecification(request);
 
-		var total = await invoiceRepository.GetTotalAsync(
+		var total = await _invoiceRepository.GetTotalAsync(
 			specification: specification,
 			cancellationToken: cancellationToken);
 
-		var invoices = await invoiceRepository.GetAllBySpecAsync(
+		var invoices = await _invoiceRepository.GetAllBySpecAsync(
 			specification: specification,
 			pageNumber: request.PageNumber,
 			pageSize: request.PageSize,

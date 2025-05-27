@@ -10,9 +10,11 @@ public class GetInvoiceDetailsQueryHandler(
 	IInvoiceDetailRepository invoiceDetailRepository)
 	: IQueryHandler<GetInvoiceDetailsQuery, ICollection<InvoiceDetailResponse>>
 {
+	private readonly IInvoiceRepository _invoiceRepository = invoiceRepository;
+	private readonly IInvoiceDetailRepository _invoiceDetailRepository = invoiceDetailRepository;
 	public async Task<Result<ICollection<InvoiceDetailResponse>>> Handle(GetInvoiceDetailsQuery request, CancellationToken cancellationToken)
 	{
-		var invoice = await invoiceRepository.GetByIdAsync(
+		var invoice = await _invoiceRepository.GetByIdAsync(
 			id: request.Id,
 			cancellationToken: cancellationToken);
 
@@ -21,7 +23,7 @@ public class GetInvoiceDetailsQueryHandler(
 			return Error.NotFound(description: "Invoice not found.");
 		}
 
-		var details = await invoiceDetailRepository.GetDetailsWithProductByInvoiceIdAsync(
+		var details = await _invoiceDetailRepository.GetDetailsWithProductByInvoiceIdAsync(
 			invoiceId: request.Id,
 			cancellationToken: cancellationToken);
 

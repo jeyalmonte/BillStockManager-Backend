@@ -12,9 +12,11 @@ public class MakePaymentCommandHandler(
 	IUnitOfWork unitOfWork
 	) : ICommandHandler<MakePaymentCommand, PaymentResponse>
 {
+	private readonly IInvoiceRepository _invoiceRepository = invoiceRepository;
+	private readonly IUnitOfWork _unitOfWork = unitOfWork;
 	public async Task<Result<PaymentResponse>> Handle(MakePaymentCommand request, CancellationToken cancellationToken)
 	{
-		var invoice = await invoiceRepository.GetByIdAsync(
+		var invoice = await _invoiceRepository.GetByIdAsync(
 			id: request.InvoiceId,
 			asNoTracking: false,
 			cancellationToken: cancellationToken
@@ -50,7 +52,7 @@ public class MakePaymentCommandHandler(
 			return paymentProcessingResult.Errors;
 		}
 
-		await unitOfWork.CommitAsync(cancellationToken);
+		await _unitOfWork.CommitAsync(cancellationToken);
 
 		return payment.Value.Adapt<PaymentResponse>();
 	}

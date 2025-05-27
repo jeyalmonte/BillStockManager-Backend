@@ -18,9 +18,15 @@ public class CreateInvoiceCommandHandler(
 	IUnitOfWork unitOfWork)
 	: ICommandHandler<CreateInvoiceCommand, InvoiceResponse>
 {
+	private readonly IInvoiceService _invoiceService = invoiceService;
+	private readonly IInvoiceRepository _invoiceRepository = invoiceRepository;
+	private readonly IProductRepository _productRepository = productRepository;
+	private readonly ICustomerRepository _customerRepository = customerRepository;
+	private readonly IUnitOfWork _unitOfWork = unitOfWork;
+
 	public async Task<Result<InvoiceResponse>> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
 	{
-		var customer = await customerRepository.GetByIdAsync(
+		var customer = await _customerRepository.GetByIdAsync(
 			id: request.CustomerId,
 			cancellationToken: cancellationToken);
 
@@ -32,7 +38,7 @@ public class CreateInvoiceCommandHandler(
 		var invoice = Invoice.Create(customer.Id);
 
 		var productIds = request.InvoiceDetails.Select(d => d.ProductId).ToList();
-		var products = await productRepository.GetByIdsAsync(
+		var products = await _productRepository.GetByIdsAsync(
 			ids: productIds,
 			cancellationToken: cancellationToken
 		);
@@ -42,7 +48,7 @@ public class CreateInvoiceCommandHandler(
 			return Error.Failure(description: "Some products not found.");
 		}
 
-		var invoiceDetailsResult = invoiceService.AddInvoiceDetails(
+		var invoiceDetailsResult = _invoiceService.AddInvoiceDetails(
 			invoice: invoice,
 			products: [.. products],
 			invoiceDetails: request.InvoiceDetails
@@ -53,8 +59,8 @@ public class CreateInvoiceCommandHandler(
 			return invoiceDetailsResult.Errors;
 		}
 
-		invoiceRepository.Add(invoice);
-		await unitOfWork.CommitAsync(cancellationToken);
+		_invoiceRepository.Add(invoice);
+		await _unitOfWork.CommitAsync(cancellationToken);
 
 		var invoiceResponse = invoice.Adapt<InvoiceResponse>();
 
